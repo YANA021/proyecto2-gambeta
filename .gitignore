@@ -1,0 +1,65 @@
+
+
+# Logs & OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Environment Files
+.env
+.env.backup
+.env.production
+.env.testing
+.env.local
+.env.*
+!.env.example
+
+# Secret Configs
+auth.json
+
+# Laravel Specific
+/vendor/
+node_modules/
+
+# Storage (except public)
+storage/*.key
+/storage/app/public/*
+/storage/pail
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*
+/storage/logs/*
+
+# Public
+/public/storage
+/public/hot
+/public/build
+
+# Testing
+.phpunit.result.cache
+/.phpunit.cache
+
+# Editor / IDE
+/.idea
+/.vscode
+/.zed
+/.fleet
+/.nova
+
+# Composer
+/composer.lock
+
+# Node
+npm-debug.log
+yarn-error.log
+
+# Sail / Docker
+docker-compose.override.yml
+sail
+/vendor/laravel/sail/runtimes/*/Dockerfile
+
+# Other
+.phpactor.json
+Homestead.json
+Homestead.yaml
