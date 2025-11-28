@@ -47,8 +47,7 @@ storage/*.key
 /.fleet
 /.nova
 
-# Composer
-/composer.lock
+
 
 # Node
 npm-debug.log
