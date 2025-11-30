@@ -19,17 +19,16 @@ Route::get('/', function () {
 
 Route::get('/admin', function () {
     $tipos = TipoCancha::latest()->take(5)->get();
-
     $stats = [
-        'canchas' => $tipos->count(),
-        'reservasHoy' => null,
-        'ingresosSemana' => null,
-        'ocupacion' => null,
+        'canchas' => Cancha::count(),
+        'clientes' => Cliente::count(),
+        'reservas' => Reserva::count(),
+        'pagos' => Pago::count(),
     ];
+    $recentReservas = Reserva::with(['cancha', 'cliente', 'estado'])->latest()->take(5)->get();
+    $recentPagos = Pago::with(['cliente'])->latest()->take(5)->get();
 
-    $actividades = [];
-
-    return view('admin.dashboard', compact('tipos', 'stats', 'actividades'));
+    return view('admin.dashboard', compact('tipos', 'stats', 'recentReservas', 'recentPagos'));
 })->name('admin.dashboard');
 
 
