@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TipoCanchaController;
 use App\Http\Controllers\CanchaController;
+use App\Http\Controllers\ClienteController;
 use App\Models\TipoCancha;
 
 Route::get('/', function () {
@@ -28,3 +29,4 @@ Route::get('/admin', function () {
 // Rutas para Tipos de Canchas
 Route::resource('tipo_canchas', TipoCanchaController::class);
 Route::resource('canchas', CanchaController::class);
+Route::resource('clientes', ClienteController::class);

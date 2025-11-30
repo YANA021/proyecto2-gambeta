@@ -13,14 +13,14 @@ class CanchaController extends Controller
     {
         $canchas = Cancha::with('tipoCancha')->latest()->paginate(10);
 
-        return view('canchas.index', compact('canchas'));
+        return view('admin.canchas.index', compact('canchas'));
     }
 
     public function create()
     {
         $tipos = TipoCancha::pluck('nombre', 'id');
 
-        return view('canchas.create', compact('tipos'));
+        return view('admin.canchas.create', compact('tipos'));
     }
 
     public function store(Request $request)
@@ -40,14 +40,14 @@ class CanchaController extends Controller
     {
         $cancha->load('tipoCancha');
 
-        return view('canchas.show', compact('cancha'));
+        return view('admin.canchas.show', compact('cancha'));
     }
 
     public function edit(Cancha $cancha)
     {
         $tipos = TipoCancha::pluck('nombre', 'id');
 
-        return view('canchas.edit', compact('cancha', 'tipos'));
+        return view('admin.canchas.edit', compact('cancha', 'tipos'));
     }
 
     public function update(Request $request, Cancha $cancha)
