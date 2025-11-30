@@ -6,6 +6,7 @@ use App\Http\Controllers\CanchaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\EstadoReservaController;
+use App\Http\Controllers\ReservaController;
 use App\Models\TipoCancha;
 
 Route::get('/', function () {
@@ -34,3 +35,4 @@ Route::resource('canchas', CanchaController::class);
 Route::resource('clientes', ClienteController::class);
 Route::resource('grupos', GrupoController::class);
 Route::resource('estados_reserva', EstadoReservaController::class);
+Route::resource('reservas', ReservaController::class);
