@@ -12,13 +12,13 @@ class ClienteController extends Controller
     {
         $clientes = Cliente::with('grupo')->latest()->paginate(10);
 
-        return view('clientes.index', compact('clientes'));
+        return view('admin.clientes.index', compact('clientes'));
     }
 
     public function create()
     {
         $grupos = Grupo::pluck('nombre', 'id');
-        return view('clientes.create', compact('grupos'));
+        return view('admin.clientes.create', compact('grupos'));
     }
 
     public function store(Request $request)
@@ -32,13 +32,13 @@ class ClienteController extends Controller
     public function show(Cliente $cliente)
     {
         $cliente->load('grupo');
-        return view('clientes.show', compact('cliente'));
+        return view('admin.clientes.show', compact('cliente'));
     }
 
     public function edit(Cliente $cliente)
     {
         $grupos = Grupo::pluck('nombre', 'id');
-        return view('clientes.edit', compact('cliente', 'grupos'));
+        return view('admin.clientes.edit', compact('cliente', 'grupos'));
     }
 
     public function update(Request $request, Cliente $cliente)
