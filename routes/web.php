@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TipoCanchaController;
 use App\Http\Controllers\CanchaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\GrupoController;
 use App\Models\TipoCancha;
 
 Route::get('/', function () {
@@ -30,3 +31,4 @@ Route::get('/admin', function () {
 Route::resource('tipo_canchas', TipoCanchaController::class);
 Route::resource('canchas', CanchaController::class);
 Route::resource('clientes', ClienteController::class);
+Route::resource('grupos', GrupoController::class);
