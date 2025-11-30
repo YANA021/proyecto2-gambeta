@@ -9,10 +9,8 @@ use App\Http\Controllers\EstadoReservaController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ComprobanteController;
-use App\Models\Cancha;
-use App\Models\Cliente;
-use App\Models\Reserva;
-use App\Models\Pago;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UsuariosController;
 use App\Models\TipoCancha;
 
 Route::get('/', function () {
@@ -43,3 +41,5 @@ Route::resource('estados_reserva', EstadoReservaController::class);
 Route::resource('reservas', ReservaController::class);
 Route::resource('pagos', PagoController::class);
 Route::resource('comprobantes', ComprobanteController::class);
+Route::resource('roles', RolesController::class);
+Route::resource('usuarios', UsuariosController::class);
