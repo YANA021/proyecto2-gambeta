@@ -10,7 +10,7 @@ class ComprobanteController extends Controller
 {
     public function index()
     {
-        // Redirigir a pagos o mostrar lista de comprobantes
+        // redirigir a pagos o mostrar lista de comprobantes
         return redirect()->route('pagos.index');
     }
 

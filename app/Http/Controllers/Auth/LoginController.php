@@ -25,10 +25,10 @@ class LoginController extends Controller
         $usuario = Usuario::where('nombre_usuario', $credentials['nombre_usuario'])->first();
 
         if ($usuario && Hash::check($credentials['contrasena'], $usuario->contrasena)) {
-            Auth::loginUsingId($usuario->id);
+            Auth::login($usuario);
             $request->session()->regenerate();
 
-            // Role-based redirection
+            // redirección basada en roles
             $role = strtolower($usuario->rol->nombre);
             if ($role === 'administrador') {
                 return redirect()->route('admin.dashboard');

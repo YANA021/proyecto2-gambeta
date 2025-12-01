@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CheckRole
 {
     /**
-     * Handle an incoming request.
+     * manejar una solicitud entrante.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -19,10 +19,10 @@ class CheckRole
             return redirect()->route('login');
         }
 
-        // Assuming the relationship is 'rol' based on the plan and 'Usuario' model
+        // asumimos que la relación es 'rol' basada en el plan y el modelo 'usuario'
         $userRole = auth()->user()->rol->nombre;
 
-        // Normalize to lowercase for comparison
+        // normalizamos a minúsculas para comparación
         $roles = array_map('strtolower', $roles);
         if (!in_array(strtolower($userRole), $roles)) {
             abort(403, 'No tienes permisos para acceder a esta sección');

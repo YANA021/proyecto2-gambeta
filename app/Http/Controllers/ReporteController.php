@@ -29,7 +29,7 @@ class ReporteController extends Controller
 
     private function getReportData()
     {
-        // 1. KPIs Generales
+        // 1. kpis generales
         $ingresosHoy = Pago::whereDate('fecha_pago', Carbon::today())->sum('monto');
         $ingresosMes = Pago::whereMonth('fecha_pago', Carbon::now()->month)
                            ->whereYear('fecha_pago', Carbon::now()->year)
@@ -38,7 +38,7 @@ class ReporteController extends Controller
                               ->whereYear('fecha', Carbon::now()->year)
                               ->count();
 
-        // 2. Ingresos Mensuales (Últimos 6 meses)
+        // 2. ingresos mensuales (últimos 6 meses)
         $ingresosPorMes = Pago::select(
                 DB::raw('sum(monto) as total'),
                 DB::raw("DATE_FORMAT(fecha_pago, '%Y-%m') as mes")
@@ -53,7 +53,7 @@ class ReporteController extends Controller
         });
         $chartData = $ingresosPorMes->pluck('total');
 
-        // 3. Canchas Más Usadas
+        // 3. canchas más usadas
         $canchasPopulares = Reserva::select('cancha_id', DB::raw('count(*) as total'))
             ->groupBy('cancha_id')
             ->orderByDesc('total')
@@ -72,8 +72,8 @@ class ReporteController extends Controller
             'chartData',
             'canchaLabels',
             'canchaData',
-            'ingresosPorMes', // Added for table view in PDF
-            'canchasPopulares' // Added for table view in PDF
+            'ingresosPorMes', // añadido para vista de tabla en pdf
+            'canchasPopulares' // añadido para vista de tabla en pdf
         );
     }
 }

@@ -13,9 +13,9 @@ use App\Http\Controllers\ComprobanteController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
-// Rutas de Autenticación
+// rutas de autenticación
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -23,7 +23,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
-// Rutas Protegidas
+// rutas protegidas
 Route::middleware(['auth'])->group(function () {
     
     Route::get('/admin', function () {
@@ -49,17 +49,17 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos'));
     })->name('admin.dashboard');
 
-    // Solo Admin
+    // solo admin
     Route::middleware(['role:Administrador'])->group(function () {
         Route::resource('tipo_canchas', TipoCanchaController::class);
         Route::resource('canchas', CanchaController::class);
-        Route::resource('usuarios', UsuariosController::class); // Verificado nombre // Changed from UsuarioController
+        Route::resource('usuarios', UsuariosController::class); // verificado nombre // changed from usuariocontroller
         Route::resource('roles', RolesController::class);
     });
 
-    // Admin + Empleado
+    // admin + empleado
     Route::middleware(['role:Administrador,Empleado'])->group(function () {
-        // Employee Dashboard
+        // panel de empleado
         Route::get('/empleado', function () {
             $stats = [
                 'reservas_hoy' => \App\Models\Reserva::whereDate('fecha', today())->count(),
@@ -93,7 +93,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('estados_reserva', \App\Http\Controllers\EstadoReservaController::class);
     });
 
-    // Rutas Cliente
+    // rutas cliente
     Route::middleware(['role:cliente'])->group(function () {
         Route::view('/cliente', 'cliente.dashboard')->name('cliente.dashboard');
     });
