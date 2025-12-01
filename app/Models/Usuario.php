@@ -63,4 +63,9 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(User::class, 'empleado_id');
     }
+
+    public function hasRole(string $role): bool
+    {
+        return strtolower($this->rol->nombre) === strtolower($role);
+    }
 }

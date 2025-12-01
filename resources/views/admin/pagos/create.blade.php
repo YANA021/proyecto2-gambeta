@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Pago - Gambeta</title>
+    <title>Registrar Pago - Gambeta</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 text-slate-900">
-    <div class="mx-auto max-w-3xl px-6 py-10">
+    <div class="mx-auto max-w-2xl px-6 py-10">
         <header class="mb-6 flex items-center justify-between">
             <div>
-                <p class="text-xs uppercase tracking-wide text-slate-500">Crear</p>
-                <h1 class="text-2xl font-bold">Nuevo pago</h1>
+                <p class="text-xs uppercase tracking-wide text-slate-500">Finanzas</p>
+                <h1 class="text-2xl font-bold">Registrar Pago</h1>
             </div>
             <a href="{{ route('pagos.index') }}" class="text-sm font-semibold text-slate-600 hover:text-slate-800">Volver</a>
         </header>
@@ -19,72 +19,65 @@
         <div class="rounded-xl border border-slate-100 bg-white p-6 shadow-sm">
             <form action="{{ route('pagos.store') }}" method="POST" class="space-y-4">
                 @csrf
+
                 <div>
-                    <label class="text-sm font-semibold text-slate-700">Reserva</label>
-                    <select name="reserva_id" required
-                            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
-                        <option value="">Seleccione...</option>
-                        @foreach($reservas as $id)
-                            <option value="{{ $id }}" @selected(old('reserva_id') == $id)>#{{ $id }}</option>
+                    <label class="mb-1 block text-sm font-semibold text-slate-700">Reserva</label>
+                    <select name="reserva_id" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                        <option value="">Seleccione una reserva...</option>
+                        @foreach($reservas as $id => $label)
+                            <option value="{{ $id }}">Reserva #{{ $id }}</option>
                         @endforeach
                     </select>
-                    @error('reserva_id') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
+                    @error('reserva_id') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label class="text-sm font-semibold text-slate-700">Cliente</label>
-                    <select name="cliente_id" required
-                            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
-                        <option value="">Seleccione...</option>
+                    <label class="mb-1 block text-sm font-semibold text-slate-700">Cliente</label>
+                    <select name="cliente_id" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                        <option value="">Seleccione un cliente...</option>
                         @foreach($clientes as $id => $nombre)
-                            <option value="{{ $id }}" @selected(old('cliente_id') == $id)>{{ $nombre }}</option>
+                            <option value="{{ $id }}">{{ $nombre }}</option>
                         @endforeach
                     </select>
-                    @error('cliente_id') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
+                    @error('cliente_id') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Fecha de pago</label>
-                        <input type="datetime-local" name="fecha_pago" value="{{ old('fecha_pago') }}" required
-                               class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
-                        @error('fecha_pago') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
+                        <label class="mb-1 block text-sm font-semibold text-slate-700">Monto</label>
+                        <input type="number" step="0.01" name="monto" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                        @error('monto') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Monto</label>
-                        <input type="number" step="0.01" min="0" name="monto" value="{{ old('monto') }}" required
-                               class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
-                        @error('monto') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
+                        <label class="mb-1 block text-sm font-semibold text-slate-700">Fecha</label>
+                        <input type="date" name="fecha_pago" value="{{ date('Y-m-d') }}" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                        @error('fecha_pago') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Método</label>
-                        <input type="text" name="metodo" value="{{ old('metodo') }}" required
-                               class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
-                               placeholder="Ej. efectivo, tarjeta, transferencia">
-                        @error('metodo') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label class="text-sm font-semibold text-slate-700">Estado</label>
-                        <select name="estado_pago" required
-                                class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
-                            <option value="">Seleccione...</option>
-                            @foreach(['pendiente', 'completado'] as $estado)
-                                <option value="{{ $estado }}" @selected(old('estado_pago') == $estado)>{{ ucfirst($estado) }}</option>
-                            @endforeach
+                        <label class="mb-1 block text-sm font-semibold text-slate-700">Método</label>
+                        <select name="metodo" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                            <option value="efectivo">Efectivo</option>
+                            <option value="tarjeta">Tarjeta</option>
+                            <option value="transferencia">Transferencia</option>
                         </select>
-                        @error('estado_pago') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
+                        @error('metodo') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="mb-1 block text-sm font-semibold text-slate-700">Estado</label>
+                        <select name="estado_pago" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                            <option value="completado">Completado</option>
+                            <option value="pendiente">Pendiente</option>
+                        </select>
+                        @error('estado_pago') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
                     </div>
                 </div>
 
-                <div class="pt-2">
-                    <button type="submit"
-                            class="inline-flex w-full justify-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
-                        Guardar pago
-                    </button>
-                </div>
+                <button type="submit" class="mt-4 w-full rounded-lg bg-slate-900 py-2.5 font-bold text-white hover:bg-slate-800">
+                    Registrar Pago
+                </button>
             </form>
         </div>
     </div>

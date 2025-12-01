@@ -40,7 +40,7 @@
                     <div>
                         <div class="overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
                             @if($cancha->foto)
-                                <img src="{{ Storage::disk('public')->url($cancha->foto) }}" alt="Foto cancha"
+                                <img src="{{ Storage::url($cancha->foto) }}" alt="Foto cancha"
                                      class="h-56 w-full object-cover">
                             @else
                                 <div class="flex h-56 items-center justify-center text-sm text-slate-500">

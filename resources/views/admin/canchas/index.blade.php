@@ -41,7 +41,20 @@
                     @forelse ($canchas as $cancha)
                         <tr class="hover:bg-slate-50">
                             <td class="px-4 py-3 font-semibold text-slate-900">#{{ $cancha->id }}</td>
-                            <td class="px-4 py-3">{{ $cancha->nombre }}</td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-3">
+                                    @if($cancha->foto)
+                                        <img src="{{ Storage::url($cancha->foto) }}" alt="{{ $cancha->nombre }}" class="h-10 w-10 rounded-lg object-cover">
+                                    @else
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
+                                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    <span>{{ $cancha->nombre }}</span>
+                                </div>
+                            </td>
                             <td class="px-4 py-3">{{ $cancha->tipoCancha->nombre ?? '—' }}</td>
                             <td class="px-4 py-3">${{ number_format($cancha->precio_hora, 2) }}</td>
                             <td class="px-4 py-3">
@@ -57,6 +70,8 @@
                                        class="rounded-full bg-slate-900 px-3 py-1 text-white hover:bg-slate-800">Ver</a>
                                     <a href="{{ route('canchas.edit', $cancha) }}"
                                        class="rounded-full bg-slate-100 px-3 py-1 text-slate-800 ring-1 ring-slate-200 hover:bg-slate-200">Editar</a>
+                                    <a href="{{ route('historial.porCancha', $cancha->id) }}"
+                                       class="rounded-full bg-indigo-100 px-3 py-1 text-indigo-800 ring-1 ring-indigo-200 hover:bg-indigo-200">📋 Historial</a>
                                     <form action="{{ route('canchas.destroy', $cancha) }}" method="POST"
                                           onsubmit="return confirm('¿Eliminar esta cancha?')" class="inline">
                                         @csrf

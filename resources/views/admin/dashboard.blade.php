@@ -186,7 +186,7 @@
 @endphp
 <div class="container-xxl position-relative">
     <div class="glass-hero mb-4">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 position-relative">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 position-relative" style="z-index: 2;">
             <div>
                 <div class="chip mb-2">
                     <span class="dot"></span>
@@ -195,6 +195,17 @@
                 <h1 class="fw-bold mb-1">Gambeta Operations</h1>
                 <p class="muted mb-0">Gestiona canchas, clientes y cobros desde una sola vista.</p>
             </div>
+            <div class="d-flex gap-2">
+                <a href="{{ url('/') }}" class="btn btn-light">
+                    🏠 Inicio
+                </a>
+                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">
+                        🚪 Cerrar Sesión
+                    </button>
+                </form>
+            </div>
             <div class="d-flex flex-wrap gap-2">
                 <a href="{{ route('canchas.create') }}" class="btn-ghost d-flex align-items-center gap-2">
                     <span>🏟️</span> Nueva cancha
@@ -202,8 +213,20 @@
                 <a href="{{ route('clientes.create') }}" class="btn-ghost d-flex align-items-center gap-2">
                     <span>👥</span> Nuevo cliente
                 </a>
+                <a href="{{ route('reservas.calendar') }}" class="btn-ghost d-flex align-items-center gap-2">
+                    <span>📅</span> Calendario
+                </a>
                 <a href="{{ route('reservas.create') }}" class="btn-solid d-flex align-items-center gap-2">
                     <span>⚡</span> Crear reserva
+                </a>
+                <a href="{{ route('reportes.index') }}" class="btn-ghost d-flex align-items-center gap-2">
+                    <span>📊</span> Reportes
+                </a>
+                <a href="{{ route('bloqueos.index') }}" class="btn-ghost d-flex align-items-center gap-2">
+                    <span>🚫</span> Bloqueos
+                </a>
+                <a href="{{ route('historial.clientesFrecuentes') }}" class="btn-ghost d-flex align-items-center gap-2">
+                    <span>🏆</span> TOP Clientes
                 </a>
             </div>
         </div>
@@ -339,6 +362,7 @@
                     <a class="btn-ghost w-100 text-start" href="{{ route('clientes.index') }}">📇 Lista de clientes</a>
                     <a class="btn-ghost w-100 text-start" href="{{ route('canchas.index') }}">🏟️ Gestión de canchas</a>
                     <a class="btn-ghost w-100 text-start" href="{{ route('grupos.index') }}">👥 Grupos y equipos</a>
+                    <a class="btn-ghost w-100 text-start" href="{{ route('reservas.calendar') }}">📅 Calendario de reservas</a>
                     <a class="btn-ghost w-100 text-start" href="{{ route('estados_reserva.index') }}">📌 Estados de reserva</a>
                 </div>
             </div>
