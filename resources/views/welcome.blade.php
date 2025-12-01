@@ -1,141 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gambeta | Reserva tu cancha</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-start: #0f1e3c;
-            --bg-end: #0c8a5f;
-            --accent: #30d18a;
-            --text-primary: #e8edf5;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        body {
-            font-family: 'Manrope', sans-serif;
-            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: var(--text-primary);
-            overflow-x: hidden;
-        }
-
-        .hero-section {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 4rem 2rem;
-            max-width: 800px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .brand-title {
-            font-size: 4rem;
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .brand-subtitle {
-            font-size: 1.5rem;
-            color: rgba(232, 237, 245, 0.8);
-            margin-bottom: 3rem;
-            font-weight: 500;
-        }
-
-        .btn-custom {
-            padding: 1rem 2.5rem;
-            font-weight: 700;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary-custom {
-            background: var(--accent);
-            color: #0f1e3c;
-            border: none;
-            box-shadow: 0 10px 20px rgba(48, 209, 138, 0.2);
-        }
-
-        .btn-primary-custom:hover {
-            background: #2bc17e;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(48, 209, 138, 0.3);
-            color: #0f1e3c;
-        }
-
-        .btn-outline-custom {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .btn-outline-custom:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .floating-shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.6;
-        }
-
-        .shape-1 {
-            top: -10%;
-            left: -10%;
-            width: 500px;
-            height: 500px;
-            background: rgba(48, 209, 138, 0.2);
-        }
-
-        .shape-2 {
-            bottom: -10%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            background: rgba(15, 30, 60, 0.5);
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
+<body class="antialiased bg-bg-primary text-text-primary min-h-screen flex flex-col">
+    <x-splash />
 
-    <div class="hero-section">
-        <div class="glass-card">
-            <h1 class="brand-title">GAMBETA</h1>
-            <p class="brand-subtitle">La mejor forma de reservar tu cancha y jugar tu pasión.</p>
+    <div class="relative flex flex-col items-center justify-center min-h-screen selection:bg-brand-primary selection:text-white">
+        <!-- fondo decorativo -->
+        <div class="absolute inset-0 overflow-hidden -z-10">
+            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-brand-accent opacity-20 blur-3xl"></div>
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-brand-primary opacity-20 blur-3xl"></div>
+        </div>
 
-            <div class="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center">
+        <div class="w-full max-w-7xl mx-auto p-6 lg:p-8 flex flex-col items-center justify-center">
+            <!-- logo -->
+            <div class="mb-12 transform hover:scale-105 transition-transform duration-300">
+                <img src="{{ asset('images/logo_gambeta.png') }}" alt="Gambeta Logo" class="h-48 w-auto md:h-64 drop-shadow-xl">
+            </div>
+
+            <!-- botones de accion -->
+            <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center items-center">
                 @auth
                     @php
                         $dashboardRoute = 'cliente.dashboard';
@@ -144,25 +34,30 @@
                         }
                     @endphp
                     
-                    <a href="{{ route($dashboardRoute) }}" class="btn btn-custom btn-primary-custom text-decoration-none">
-                        Ir al Panel
+                    <a href="{{ route($dashboardRoute) }}" class="w-full sm:w-auto px-8 py-3 bg-brand-primary hover:bg-brand-hover text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:-translate-y-1 text-center">
+                        ir al panel
                     </a>
                     
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    <form method="POST" action="{{ route('logout') }}" class="w-full sm:w-auto">
                         @csrf
-                        <button type="submit" class="btn btn-custom btn-outline-custom">
-                            Cerrar Sesión
+                        <button type="submit" class="w-full px-8 py-3 bg-transparent border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white font-semibold rounded-full transition-all duration-300 text-center">
+                            cerrar sesión
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-custom btn-primary-custom text-decoration-none">
-                        Iniciar Sesión
+                    <a href="{{ route('login') }}" class="w-full sm:w-auto px-8 py-3 bg-brand-primary hover:bg-brand-hover text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:-translate-y-1 text-center">
+                        iniciar sesión
                     </a>
-                    <a href="{{ route('register') }}" class="btn btn-custom btn-outline-custom text-decoration-none">
-                        Registrarse
+                    <a href="{{ route('register') }}" class="w-full sm:w-auto px-8 py-3 bg-transparent border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white font-semibold rounded-full transition-all duration-300 text-center">
+                        registrarse
                     </a>
                 @endauth
             </div>
+        </div>
+
+        <!-- footer simple -->
+        <div class="absolute bottom-4 text-center text-sm text-text-secondary">
+            &copy; {{ date('Y') }} proyecto para lagambeta para la materia de TPI
         </div>
     </div>
 </body>

@@ -1,108 +1,55 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - Gambeta</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-start: #0f1e3c;
-            --bg-end: #0c8a5f;
-            --accent: #30d18a;
-            --text-primary: #e8edf5;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        body {
-            font-family: 'Manrope', sans-serif;
-            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-primary);
-        }
-
-        .login-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            padding: 0.8rem;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--accent);
-            color: var(--text-primary);
-            box-shadow: none;
-        }
-
-        .form-control::placeholder {
-            color: rgba(232, 237, 245, 0.5);
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            border: none;
-            padding: 0.8rem;
-            font-weight: 600;
-            color: #0f1e3c;
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        .btn-primary:hover {
-            background: #2bc17e;
-            color: #0f1e3c;
-        }
-
-        .logo-text {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--accent);
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-    <div class="login-card">
-        <div class="logo-text">GAMBETA</div>
-        
-        <form method="POST" action="{{ route('login') }}">
+<body class="antialiased bg-bg-primary text-text-primary min-h-screen flex items-center justify-center p-4">
+    <!-- fondo decorativo -->
+    <div class="fixed inset-0 overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-brand-accent opacity-10 blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-brand-primary opacity-10 blur-3xl"></div>
+    </div>
+
+    <div class="w-full max-w-md bg-bg-surface rounded-2xl shadow-xl border border-border p-8 transform transition-all">
+        <div class="text-center mb-8">
+            <a href="{{ route('welcome') }}" class="inline-block transform hover:scale-105 transition-transform duration-300">
+                <img src="{{ asset('images/logo_gambeta.png') }}" alt="Gambeta Logo" class="h-32 mx-auto mb-4 object-contain">
+            </a>
+            <h2 class="text-2xl font-bold text-brand-primary">Bienvenido de nuevo</h2>
+            <p class="text-text-secondary mt-2">Ingresa tus credenciales para continuar</p>
+        </div>
+
+        <form method="POST" action="{{ route('login') }}" class="space-y-6">
             @csrf
             
-            <div class="mb-3">
-                <label class="form-label">Usuario</label>
-                <input type="text" name="nombre_usuario" class="form-control" placeholder="Ingrese su usuario" value="{{ old('nombre_usuario') }}" required autofocus>
+            <div>
+                <label for="nombre_usuario" class="block text-sm font-medium text-text-primary mb-2">Usuario</label>
+                <input type="text" id="nombre_usuario" name="nombre_usuario" 
+                    class="w-full px-4 py-3 rounded-lg bg-bg-secondary border border-border text-text-primary focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" 
+                    placeholder="Ingrese su usuario" value="{{ old('nombre_usuario') }}" required autofocus>
                 @error('nombre_usuario')
-                    <div class="text-danger mt-1 small">{{ $message }}</div>
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div class="mb-4">
-                <label class="form-label">Contraseña</label>
-                <input type="password" name="contrasena" class="form-control" placeholder="Ingrese su contraseña" required>
+            <div>
+                <label for="contrasena" class="block text-sm font-medium text-text-primary mb-2">Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" 
+                    class="w-full px-4 py-3 rounded-lg bg-bg-secondary border border-border text-text-primary focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" 
+                    placeholder="Ingrese su contraseña" required>
                 @error('contrasena')
-                    <div class="text-danger mt-1 small">{{ $message }}</div>
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            <button type="submit" class="w-full py-3 px-4 bg-brand-primary hover:bg-brand-hover text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+                Iniciar Sesión
+            </button>
         </form>
     </div>
 </body>
