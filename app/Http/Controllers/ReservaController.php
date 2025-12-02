@@ -12,8 +12,26 @@ class ReservaController extends Controller
 {
     public function index()
     {
-        $reservas = Reserva::with(['cancha', 'cliente', 'estado'])->latest()->paginate(10);
-        return view('admin.reservas.index', compact('reservas'));
+        $query = Reserva::with(['cancha', 'cliente', 'estado']);
+
+        if (request('fecha')) {
+            $query->whereDate('fecha', request('fecha'));
+        }
+
+        if (request('cancha_id')) {
+            $query->where('cancha_id', request('cancha_id'));
+        }
+
+        if (request('estado_id')) {
+            $query->where('estado_id', request('estado_id'));
+        }
+
+        $reservas = $query->latest()->paginate(10);
+        
+        $canchas = Cancha::pluck('nombre', 'id');
+        $estados = EstadoReserva::pluck('nombre', 'id');
+
+        return view('admin.reservas.index', compact('reservas', 'canchas', 'estados'));
     }
 
     public function create()
