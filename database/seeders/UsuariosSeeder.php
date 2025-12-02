@@ -16,7 +16,7 @@ class UsuariosSeeder extends Seeder
         Usuario::updateOrCreate(
             ['nombre_usuario' => 'admin'],
             [
-                'contrasena' => 'admin123', // Model casts this to hashed
+                'contrasena' => 'admin123', // el modelo convierte esto a hash
                 'rol_id' => $adminRole->id
             ]
         );

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -38,7 +39,7 @@ class Usuario extends Authenticatable
     }
 
     /**
-     * Use Laravel's password hashing for the custom column name.
+     * usar el hash de contraseñas de laravel para el nombre de columna personalizado.
      *
      * @return array<string, string>
      */
@@ -62,6 +63,11 @@ class Usuario extends Authenticatable
     public function empleado(): BelongsTo
     {
         return $this->belongsTo(User::class, 'empleado_id');
+    }
+
+    public function cliente(): HasOne
+    {
+        return $this->hasOne(Cliente::class, 'usuario_id');
     }
 
     public function hasRole(string $role): bool
