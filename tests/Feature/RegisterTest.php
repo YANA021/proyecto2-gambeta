@@ -19,7 +19,7 @@ class RegisterTest extends TestCase
 
     public function test_user_can_register()
     {
-        // Ensure role exists (or let controller create it)
+        // asegurar que el rol exista (o dejar que el controlador lo cree)
         
         $response = $this->post('/register', [
             'nombre_usuario' => 'new_user',

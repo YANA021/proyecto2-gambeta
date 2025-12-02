@@ -27,7 +27,7 @@ class ReporteTest extends TestCase
             'rol_id' => $role->id
         ]);
 
-        // Crear datos de prueba
+        // crear datos de prueba
         $cliente = Cliente::create(['nombre' => 'Cliente Reporte', 'telefono' => '123']);
         $tipo = TipoCancha::firstOrCreate(['nombre' => 'Futbol 5']);
         $cancha = Cancha::create(['nombre' => 'Cancha Reporte', 'tipo_id' => $tipo->id, 'precio_hora' => 100, 'disponible' => 1]);

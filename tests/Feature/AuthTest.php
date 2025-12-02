@@ -20,10 +20,10 @@ class AuthTest extends TestCase
 
     public function test_admin_can_login()
     {
-        // Get or Create Role (migration seeds 'administrador')
+        // obtener o crear rol (la migración siembra 'administrador')
         $role = Roles::firstOrCreate(['nombre' => 'administrador']);
         
-        // Create User
+        // crear usuario
         $user = Usuario::create([
             'nombre_usuario' => 'admin_test',
             'contrasena' => Hash::make('password'),
@@ -58,7 +58,7 @@ class AuthTest extends TestCase
 
     public function test_role_middleware_blocks_unauthorized_access()
     {
-        // Create Employee Role and User
+        // crear rol de empleado y usuario
         $role = Roles::firstOrCreate(['nombre' => 'empleado']);
         $user = Usuario::create([
             'nombre_usuario' => 'emp_test',
@@ -68,7 +68,7 @@ class AuthTest extends TestCase
 
         $this->actingAs($user);
 
-        // Try to access Admin-only route
+        // intentar acceder a ruta solo para administradores
         $response = $this->get(route('usuarios.index'));
         $response->assertStatus(403);
     }

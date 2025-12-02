@@ -45,7 +45,7 @@ class LandingPageTest extends TestCase
         $response = $this->actingAs($user)->get('/');
         $response->assertStatus(200);
         $response->assertSee('Ir al Panel');
-        // Should link to admin dashboard
+        // esto aquí debería enlazar al panel de administración
         $response->assertSee(route('admin.dashboard'));
     }
 
@@ -61,7 +61,7 @@ class LandingPageTest extends TestCase
         $response = $this->actingAs($user)->get('/');
         $response->assertStatus(200);
         $response->assertSee('Ir al Panel');
-        // Should link to client dashboard
+        // esto aquí debería enlazar al panel de cliente
         $response->assertSee(route('cliente.dashboard'));
     }
 }

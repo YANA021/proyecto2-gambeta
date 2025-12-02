@@ -20,7 +20,7 @@ class DashboardTest extends TestCase
 
     public function test_dashboard_loads_with_data()
     {
-        // Setup Admin User
+        // configurar usuario administrador
         $role = Roles::firstOrCreate(['nombre' => 'administrador']);
         $user = Usuario::create([
             'nombre_usuario' => 'admin_dash',
@@ -28,7 +28,7 @@ class DashboardTest extends TestCase
             'rol_id' => $role->id
         ]);
 
-        // Seed some data
+        // sembrar algunos datos
         TipoCancha::firstOrCreate(['nombre' => 'Futbol 5']);
         $cancha = Cancha::create(['nombre' => 'Cancha 1', 'tipo_id' => 1, 'precio_hora' => 100]);
         $cliente = Cliente::create(['nombre' => 'Cliente 1', 'telefono' => '1234567890']);
