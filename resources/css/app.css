@@ -1,11 +1,89 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+:root {
+  /* --- tema claro (por defecto) --- */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-surface: #ffffff;
+  
+  --text-primary: #1a1a1a;
+  --text-secondary: #64748b;
+  --text-inverted: #ffffff;
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  --brand-primary: #388e3c; /* verde logo */
+  --brand-hover: #2e7d32;   /* verde más oscuro para hover */
+  --brand-accent: #81c784;  /* verde claro decorativo */
+  
+  --border-color: #e5e7eb;
+}
+
+[data-theme="dark"] {
+  /* --- tema oscuro --- */
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e; /* para tarjetas/cards */
+  --bg-surface: #2c2c2c;
+  
+  --text-primary: #e0e0e0;
+  --text-secondary: #9e9e9e;
+  --text-inverted: #121212;
+
+  --brand-primary: #4caf50; /* verde más brillante para contraste */
+  --brand-hover: #66bb6a;   /* verde aún más claro para hover */
+  --brand-accent: #1b5e20;  /* verde muy oscuro para fondos decorativos */
+  
+  --border-color: #333333;
+}
+
+/* --- utilidades personalizadas --- */
+@layer utilities {
+  /* scrollbar personalizado */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--brand-primary);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-hover);
+  }
+}
+
+/* --- animaciones personalizadas --- */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

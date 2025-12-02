@@ -18,6 +18,46 @@
                 Nueva reserva
             </a>
         </header>
+        
+        <!-- Filtros -->
+        <div class="mb-6 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+            <form action="{{ route('reservas.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
+                <div class="flex-1 min-w-[200px]">
+                    <label class="mb-1 block text-xs font-bold uppercase text-slate-500">Fecha</label>
+                    <input type="date" name="fecha" value="{{ request('fecha') }}" 
+                           class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                </div>
+                
+                <div class="flex-1 min-w-[200px]">
+                    <label class="mb-1 block text-xs font-bold uppercase text-slate-500">Cancha</label>
+                    <select name="cancha_id" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                        <option value="">Todas las canchas</option>
+                        @foreach($canchas as $id => $nombre)
+                            <option value="{{ $id }}" @selected(request('cancha_id') == $id)>{{ $nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="flex-1 min-w-[200px]">
+                    <label class="mb-1 block text-xs font-bold uppercase text-slate-500">Estado</label>
+                    <select name="estado_id" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
+                        <option value="">Todos los estados</option>
+                        @foreach($estados as $id => $nombre)
+                            <option value="{{ $id }}" @selected(request('estado_id') == $id)>{{ $nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                        Filtrar
+                    </button>
+                    @if(request()->anyFilled(['fecha', 'cancha_id', 'estado_id']))
+                        <a href="{{ route('reservas.index') }}" class="ml-2 text-sm text-slate-500 hover:text-slate-700">Limpiar</a>
+                    @endif
+                </div>
+            </form>
+        </div>
 
         @if (session('success'))
             <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">

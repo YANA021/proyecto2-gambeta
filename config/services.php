@@ -4,13 +4,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Third Party Services
+    | servicios de terceros
     |--------------------------------------------------------------------------
     |
-    | This file is for storing the credentials for third party services such
-    | as Mailgun, Postmark, AWS and more. This file provides the de facto
-    | location for this type of information, allowing packages to have
-    | a conventional file to locate the various service credentials.
+    | este archivo es para almacenar las credenciales de servicios de terceros tales
+    | como mailgun, postmark, aws y más. este archivo proporciona la ubicación
+    | de facto para este tipo de información, permitiendo que los paquetes tengan
+    | un archivo convencional para localizar las diversas credenciales de servicio.
     |
     */
 

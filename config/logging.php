@@ -9,12 +9,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Log Channel
+    | canal de registro predeterminado
     |--------------------------------------------------------------------------
     |
-    | This option defines the default log channel that is utilized to write
-    | messages to your logs. The value provided here should match one of
-    | the channels present in the list of "channels" configured below.
+    | esta opción define el canal de registro predeterminado que se utiliza para escribir
+    | mensajes en nuestros registros. el valor proporcionado aquí debe coincidir con uno de
+    | los canales presentes en la lista de "canales" configurada a continuación.
     |
     */
 
@@ -22,12 +22,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Deprecations Log Channel
+    | canal de registro de obsolescencia
     |--------------------------------------------------------------------------
     |
-    | This option controls the log channel that should be used to log warnings
-    | regarding deprecated PHP and library features. This allows you to get
-    | your application ready for upcoming major versions of dependencies.
+    | esta opción controla el canal de registro que debe usarse para registrar advertencias
+    | sobre características obsoletas de php y bibliotecas. esto nos permite preparar
+    | nuestra aplicación para las próximas versiones principales de las dependencias.
     |
     */
 
@@ -38,15 +38,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Log Channels
+    | canales de registro
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the log channels for your application. Laravel
-    | utilizes the Monolog PHP logging library, which includes a variety
-    | of powerful log handlers and formatters that you're free to use.
+    | aquí podemos configurar los canales de registro para nuestra aplicación. laravel
+    | utiliza la biblioteca de registro monolog php, que incluye una variedad
+    | de potentes manejadores y formateadores de registro que eres libre de usar.
     |
-    | Available drivers: "single", "daily", "slack", "syslog",
-    |                    "errorlog", "monolog", "custom", "stack"
+    | controladores disponibles: "single", "daily", "slack", "syslog",
+    |                            "errorlog", "monolog", "custom", "stack"
     |
     */
 
