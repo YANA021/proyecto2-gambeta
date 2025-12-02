@@ -42,7 +42,7 @@ class CalendarioReservas extends Component
             return;
         }
 
-        // Horarios posibles: 8:00 AM a 10:00 PM (22:00)
+        // horarios posibles: 8:00 am a 10:00 pm (22:00)
         $horaInicio = 8;
         $horaFin = 22;
         $this->horariosDisponibles = [];
@@ -50,17 +50,17 @@ class CalendarioReservas extends Component
         for ($hora = $horaInicio; $hora < $horaFin; $hora++) {
             $horario = sprintf('%02d:00', $hora);
             
-            // Verificar si está reservado
+            // verificar si está reservado
             $ocupado = Reserva::where('cancha_id', $this->cancha_id)
                 ->where('fecha', $this->fecha)
-                ->where('estado_id', '!=', 3) // Ignorar canceladas
+                ->where('estado_id', '!=', 3) // ignorar canceladas
                 ->where(function ($query) use ($horario) {
-                    $query->where('hora_inicio', '<=', $horario)
+                    $query->where('hora_inicio', '<', \Carbon\Carbon::parse($horario)->addHours(1)->format('H:i:s'))
                           ->whereRaw('ADDTIME(hora_inicio, SEC_TO_TIME(duracion_horas * 3600)) > ?', [$horario]);
                 })
                 ->exists();
 
-            // Verificar si está bloqueado
+            // verificar si está bloqueado
             $bloqueado = \App\Models\BloqueoHorario::where('cancha_id', $this->cancha_id)
                 ->where('fecha', $this->fecha)
                 ->where('hora_inicio', '<=', $horario . ':00')

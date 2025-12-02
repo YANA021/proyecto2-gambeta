@@ -21,7 +21,7 @@ class CrearReserva extends Component
     public $clientes;
     public $estados;
 
-    // Para crear cliente rápido
+    // para crear cliente rápido
     public $showModalCliente = false;
     public $nuevoClienteNombre;
     public $nuevoClienteTelefono;
@@ -103,7 +103,7 @@ class CrearReserva extends Component
     {
         $this->validate();
 
-        // Validar bloqueos
+        // validar bloqueos
         $bloqueado = \App\Models\BloqueoHorario::where('cancha_id', $this->cancha_id)
             ->where('fecha', $this->fecha)
             ->where(function($query) {
@@ -126,17 +126,18 @@ class CrearReserva extends Component
             return;
         }
 
-        // Validar disponibilidad
+        // validar disponibilidad
         $conflicto = Reserva::where('cancha_id', $this->cancha_id)
             ->where('fecha', $this->fecha)
-            ->where('estado_id', '!=', 3) // Ignorar canceladas
+            ->where('estado_id', '!=', 3) // ignorar canceladas
             ->where(function($query) {
                 $horaFin = \Carbon\Carbon::parse($this->hora_inicio)
                     ->addHours((int)$this->duracion_horas)->format('H:i');
 
-                $query->whereBetween('hora_inicio', [$this->hora_inicio, $horaFin])
-                      ->orWhereRaw('ADDTIME(hora_inicio, SEC_TO_TIME(duracion_horas * 3600)) BETWEEN ? AND ?',
-                          [$this->hora_inicio, $horaFin]);
+                $query->where(function($q) use ($horaFin) {
+                    $q->where('hora_inicio', '<', $horaFin)
+                      ->whereRaw('ADDTIME(hora_inicio, SEC_TO_TIME(duracion_horas * 3600)) > ?', [$this->hora_inicio]);
+                });
             })
             ->exists();
 
@@ -145,7 +146,7 @@ class CrearReserva extends Component
             return;
         }
 
-        // Crear reserva
+        // crear reserva
         $estadoPendiente = EstadoReserva::where('nombre', 'Pendiente')->first();
 
         Reserva::create([
