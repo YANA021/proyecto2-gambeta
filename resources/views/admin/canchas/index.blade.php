@@ -8,10 +8,16 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
     <div class="mx-auto max-w-6xl px-6 py-10">
-        <header class="mb-6 flex items-center justify-between gap-4">
-            <div>
+        <header class="mb-6 flex items-center justify-between gap-4 flex-wrap">
+            <div class="space-y-1">
                 <p class="text-xs uppercase tracking-wide text-slate-500">Inventario</p>
                 <h1 class="text-2xl font-bold">Canchas</h1>
+                <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-primary hover:text-brand-hover">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Volver al dashboard
+                </a>
             </div>
             <a href="{{ route('canchas.create') }}"
                class="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
