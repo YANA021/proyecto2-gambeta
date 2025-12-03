@@ -89,7 +89,7 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($reservas as $reserva)
                         <tr class="hover:bg-slate-50">
-                            <td class="px-4 py-3 font-semibold text-slate-900">#{{ $reserva->id }}</td>
+                            <td class="px-4 py-3 font-semibold text-slate-900">#{{ $reservas->firstItem() + $loop->index }}</td>
                             <td class="px-4 py-3">{{ $reserva->cancha->nombre ?? '—' }}</td>
                             <td class="px-4 py-3">{{ $reserva->cliente->nombre ?? '—' }}</td>
                             <td class="px-4 py-3">{{ optional($reserva->fecha)->format('d/m/Y') }}</td>

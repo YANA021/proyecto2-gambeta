@@ -29,7 +29,7 @@ class ReservaController extends Controller
             $query->where('estado_id', request('estado_id'));
         }
 
-        $reservas = $query->latest()->paginate(10);
+        $reservas = $query->orderBy('id', 'asc')->paginate(10);
         $canchas = Cancha::where('disponible', true)->pluck('nombre', 'id');
         $estados = EstadoReserva::pluck('nombre', 'id');
         $isAdmin = auth()->user()?->hasRole('administrador');
