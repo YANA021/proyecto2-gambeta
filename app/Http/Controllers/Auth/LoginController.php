@@ -35,8 +35,11 @@ class LoginController extends Controller
             } elseif ($role === 'empleado') {
                 return redirect()->route('empleado.dashboard');
             }
-            
-            return redirect()->route('cliente.dashboard');
+
+            Auth::logout();
+            return back()->withErrors([
+                'nombre_usuario' => 'Tu rol no tiene acceso autorizado.',
+            ]);
         }
 
         return back()->withErrors([

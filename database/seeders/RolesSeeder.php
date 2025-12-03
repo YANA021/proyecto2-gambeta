@@ -10,16 +10,15 @@ class RolesSeeder extends Seeder
 {
     public function run(): void
     {
-        \ = [
+        $roles = [
             ['nombre' => 'administrador'],
             ['nombre' => 'empleado'],
-            ['nombre' => 'cliente'],
         ];
 
-        foreach (\ as \) {
-            Roles::firstOrCreate(\);
+        foreach ($roles as $role) {
+            Roles::firstOrCreate($role);
         }
 
-        \->command->info('Roles creados exitosamente: administrador, empleado, cliente');
+        $this->command?->info('Roles creados exitosamente: administrador, empleado');
     }
 }

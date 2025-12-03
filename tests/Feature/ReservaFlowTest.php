@@ -73,4 +73,38 @@ class ReservaFlowTest extends TestCase
 
         $this->assertDatabaseHas('clientes', ['nombre' => 'Nuevo Cliente Rapido']);
     }
+
+    public function test_empleado_no_puede_eliminar_reserva()
+    {
+        $tipo = TipoCancha::firstOrCreate(['nombre' => 'Futbol 5']);
+        $cancha = Cancha::create([
+            'nombre' => 'Cancha Empleado',
+            'tipo_id' => $tipo->id,
+            'precio_hora' => 80,
+            'disponible' => 1
+        ]);
+        $cliente = Cliente::create(['nombre' => 'Cliente Empleado', 'telefono' => '555-1111']);
+        $estado = EstadoReserva::firstOrCreate(['nombre' => 'Pendiente']);
+
+        $reserva = Reserva::create([
+            'cancha_id' => $cancha->id,
+            'cliente_id' => $cliente->id,
+            'fecha' => now()->addDay()->format('Y-m-d'),
+            'hora_inicio' => '12:00',
+            'duracion_horas' => 1,
+            'precio_total' => 80,
+            'estado_id' => $estado->id
+        ]);
+
+        $role = Roles::firstOrCreate(['nombre' => 'empleado']);
+        $empleado = Usuario::create([
+            'nombre_usuario' => 'empleado_reserva',
+            'contrasena' => Hash::make('password'),
+            'rol_id' => $role->id
+        ]);
+
+        $response = $this->actingAs($empleado)->delete(route('reservas.destroy', $reserva));
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('reservas', ['id' => $reserva->id]);
+    }
 }

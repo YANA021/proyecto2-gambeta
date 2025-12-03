@@ -78,6 +78,10 @@ class ReservaController extends Controller
 
     public function destroy(Reserva $reserva)
     {
+        if (auth()->user()->hasRole('empleado')) {
+            abort(403, 'No autorizado para eliminar reservas');
+        }
+
         $reserva->delete();
         return redirect()->route('reservas.index')->with('success', 'Reserva eliminada correctamente.');
     }

@@ -50,8 +50,9 @@ new class extends Component
         <div class="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-thin">
             <!-- dashboard link -->
             @php
-                $dashboardRoute = auth()->user()->rol->nombre === 'Administrador' ? 'admin.dashboard' : 'cliente.dashboard';
-                $dashboardUrl = auth()->user()->rol->nombre === 'Administrador' ? url('/admin') : url('/cliente');
+                $isAdmin = strtolower(auth()->user()->rol->nombre) === 'administrador';
+                $dashboardRoute = $isAdmin ? 'admin.dashboard' : 'empleado.dashboard';
+                $dashboardUrl = $isAdmin ? url('/admin') : url('/empleado');
                 $isDashboardActive = request()->routeIs($dashboardRoute);
             @endphp
             
@@ -66,20 +67,20 @@ new class extends Component
                 <span class="font-medium">dashboard</span>
             </a>
 
-            @if(auth()->user()->rol->nombre === 'Administrador')
-                <div class="pt-4 pb-2 px-4 text-xs font-bold text-text-secondary uppercase tracking-wider">gestión</div>
+            <div class="pt-4 pb-2 px-4 text-xs font-bold text-text-secondary uppercase tracking-wider">gestión</div>
+            
+            @php $isReservasActive = request()->routeIs('reservas.*'); @endphp
+            <a href="{{ route('reservas.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isReservasActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isReservasActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
                 
-                @php $isReservasActive = request()->routeIs('reservas.*'); @endphp
-                <a href="{{ route('reservas.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isReservasActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
-                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isReservasActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
-                    
-                    <!-- icono svg calendario -->
-                    <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    <span class="font-medium">reservas</span>
-                </a>
-                
+                <!-- icono svg calendario -->
+                <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span class="font-medium">reservas</span>
+            </a>
+            
+            @if($isAdmin)
                 @php $isCanchasActive = request()->routeIs('canchas.*'); @endphp
                 <a href="{{ route('canchas.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isCanchasActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
                     <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isCanchasActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
@@ -90,45 +91,40 @@ new class extends Component
                     </svg>
                     <span class="font-medium">canchas</span>
                 </a>
+            @endif
 
-                @php $isClientesActive = request()->routeIs('clientes.*'); @endphp
-                <a href="{{ route('clientes.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isClientesActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
-                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isClientesActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
-                    
-                    <!-- icono svg usuarios -->
-                    <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                    <span class="font-medium">clientes</span>
-                </a>
+            @php $isClientesActive = request()->routeIs('clientes.*'); @endphp
+            <a href="{{ route('clientes.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isClientesActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isClientesActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
+                
+                <!-- icono svg usuarios -->
+                <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                <span class="font-medium">clientes</span>
+            </a>
 
-                @php $isPagosActive = request()->routeIs('pagos.*'); @endphp
-                <a href="{{ route('pagos.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isPagosActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
-                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isPagosActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
+            @php $isPagosActive = request()->routeIs('pagos.*'); @endphp
+            <a href="{{ route('pagos.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isPagosActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isPagosActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
+                
+                <!-- icono svg pagos -->
+                <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>
+                <span class="font-medium">pagos</span>
+            </a>
+
+            @if($isAdmin)
+                @php $isReportesActive = request()->routeIs('reportes.*'); @endphp
+                <a href="{{ route('reportes.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isReportesActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isReportesActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
                     
-                    <!-- icono svg pagos -->
+                    <!-- icono svg reportes -->
                     <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v4H3V3zm0 6h10v4H3V9zm0 6h6v4H3v-4zm12 0h6v4h-6v-4zm2-6h4v4h-4v-4z"></path>
                     </svg>
-                    <span class="font-medium">pagos</span>
-                </a>
-            @else
-                <div class="pt-4 pb-2 px-4 text-xs font-bold text-text-secondary uppercase tracking-wider">mi actividad</div>
-                
-                <a href="#" class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group text-text-secondary hover:bg-bg-secondary hover:text-text-primary">
-                    <!-- icono svg fútbol -->
-                    <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span class="font-medium">reservar</span>
-                </a>
-                
-                <a href="#" class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group text-text-secondary hover:bg-bg-secondary hover:text-text-primary">
-                    <!-- icono svg lista -->
-                    <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                    </svg>
-                    <span class="font-medium">mis reservas</span>
+                    <span class="font-medium">reportes</span>
                 </a>
             @endif
         </div>

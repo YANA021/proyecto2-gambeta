@@ -97,15 +97,17 @@
                                        class="rounded-full bg-slate-900 px-3 py-1 text-white hover:bg-slate-800">Ver</a>
                                     <a href="{{ route('reservas.edit', $reserva) }}"
                                        class="rounded-full bg-slate-100 px-3 py-1 text-slate-800 ring-1 ring-slate-200 hover:bg-slate-200">Editar</a>
-                                    <form action="{{ route('reservas.destroy', $reserva) }}" method="POST"
-                                          onsubmit="return confirm('¿Eliminar esta reserva?')" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                                class="rounded-full bg-rose-500 px-3 py-1 text-white hover:bg-rose-600">
-                                            Eliminar
-                                        </button>
-                                    </form>
+                                    @if(auth()->user()->hasRole('administrador'))
+                                        <form action="{{ route('reservas.destroy', $reserva) }}" method="POST"
+                                              onsubmit="return confirm('¿Eliminar esta reserva?')" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="rounded-full bg-rose-500 px-3 py-1 text-white hover:bg-rose-600">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

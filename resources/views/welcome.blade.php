@@ -28,10 +28,8 @@
             <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center items-center">
                 @auth
                     @php
-                        $dashboardRoute = 'cliente.dashboard';
-                        if(auth()->user()->hasRole('Administrador') || auth()->user()->hasRole('Empleado')) {
-                            $dashboardRoute = 'admin.dashboard';
-                        }
+                        $isAdmin = auth()->user()->hasRole('Administrador') || strtolower(auth()->user()->rol->nombre) === 'administrador';
+                        $dashboardRoute = $isAdmin ? 'admin.dashboard' : 'empleado.dashboard';
                     @endphp
                     
                     <a href="{{ route($dashboardRoute) }}" class="w-full sm:w-auto px-8 py-3 bg-brand-primary hover:bg-brand-hover text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:-translate-y-1 text-center">
@@ -47,9 +45,6 @@
                 @else
                     <a href="{{ route('login') }}" class="w-full sm:w-auto px-8 py-3 bg-brand-primary hover:bg-brand-hover text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:-translate-y-1 text-center">
                         iniciar sesión
-                    </a>
-                    <a href="{{ route('register') }}" class="w-full sm:w-auto px-8 py-3 bg-transparent border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white font-semibold rounded-full transition-all duration-300 text-center">
-                        registrarse
                     </a>
                 @endauth
             </div>

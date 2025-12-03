@@ -14,28 +14,19 @@ class RegisterTest extends TestCase
     public function test_registration_page_is_accessible()
     {
         $response = $this->get('/register');
-        $response->assertStatus(200);
+        $response->assertStatus(404);
     }
 
     public function test_user_can_register()
     {
-        // asegurar que el rol exista (o dejar que el controlador lo cree)
-        
         $response = $this->post('/register', [
             'nombre_usuario' => 'new_user',
             'contrasena' => 'password123',
             'contrasena_confirmation' => 'password123',
         ]);
 
-        $response->assertRedirect(route('admin.dashboard'));
-        
-        $this->assertDatabaseHas('usuarios', [
-            'nombre_usuario' => 'new_user',
-        ]);
-
-        $user = Usuario::where('nombre_usuario', 'new_user')->first();
-        $this->assertAuthenticatedAs($user);
-        $this->assertEquals('cliente', strtolower($user->rol->nombre));
+        $response->assertStatus(404);
+        $this->assertGuest();
     }
 
     public function test_registration_fails_with_password_mismatch()
@@ -46,7 +37,7 @@ class RegisterTest extends TestCase
             'contrasena_confirmation' => 'wrong',
         ]);
 
-        $response->assertSessionHasErrors('contrasena');
+        $response->assertStatus(404);
         $this->assertGuest();
     }
 }
