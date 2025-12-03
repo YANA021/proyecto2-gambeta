@@ -45,8 +45,21 @@ Route::middleware(['auth'])->group(function () {
             ->get();
 
         $tipos = \App\Models\TipoCancha::all();
+        $clientes = \App\Models\Cliente::orderBy('nombre')->get();
+        $canchasDisponibles = \App\Models\Cancha::orderBy('nombre')->get();
+        $estadosReserva = \App\Models\EstadoReserva::orderBy('nombre')->get();
+        $grupos = \App\Models\Grupo::orderBy('nombre')->get();
 
-        return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos'));
+        return view('admin.dashboard', [
+            'stats' => $stats,
+            'recentReservas' => $recentReservas,
+            'recentPagos' => $recentPagos,
+            'tipos' => $tipos,
+            'clientesListado' => $clientes,
+            'canchasListado' => $canchasDisponibles,
+            'estadosReserva' => $estadosReserva,
+            'gruposListado' => $grupos,
+        ]);
     })->name('admin.dashboard');
 
     // solo admin (configuración y reportes)
