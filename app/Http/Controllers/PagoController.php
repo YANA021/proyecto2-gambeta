@@ -11,7 +11,7 @@ class PagoController extends Controller
 {
     public function index()
     {
-        $pagos = Pago::with(['reserva', 'cliente'])->latest()->paginate(10);
+        $pagos = Pago::with(['reserva', 'cliente'])->orderBy('id', 'asc')->paginate(10);
         return view('admin.pagos.index', compact('pagos'));
     }
 
