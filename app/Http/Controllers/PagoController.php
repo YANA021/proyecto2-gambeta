@@ -18,7 +18,9 @@ class PagoController extends Controller
 
     public function create()
     {
-        $reservas = Reserva::with('cliente')->get()->pluck('id', 'id');
+        $reservas = Reserva::with('cliente')
+            ->orderBy('id', 'asc')
+            ->get();
         $clientes = Cliente::pluck('nombre', 'id');
 
         return view('admin.pagos.create', compact('reservas', 'clientes'));
@@ -43,7 +45,9 @@ class PagoController extends Controller
 
     public function edit(Pago $pago)
     {
-        $reservas = Reserva::with('cliente')->get()->pluck('id', 'id');
+        $reservas = Reserva::with('cliente')
+            ->orderBy('id', 'asc')
+            ->get();
         $clientes = Cliente::pluck('nombre', 'id');
 
         return view('admin.pagos.edit', compact('pago', 'reservas', 'clientes'));

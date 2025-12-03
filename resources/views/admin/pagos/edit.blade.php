@@ -26,8 +26,10 @@
                     <select name="reserva_id" required
                             class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
                         <option value="">Seleccione...</option>
-                        @foreach($reservas as $id)
-                            <option value="{{ $id }}" @selected(old('reserva_id', $pago->reserva_id) == $id)>#{{ $id }}</option>
+                        @foreach($reservas as $reserva)
+                            <option value="{{ $reserva->id }}" @selected(old('reserva_id', $pago->reserva_id) == $reserva->id)>
+                                #{{ $loop->iteration }}
+                            </option>
                         @endforeach
                     </select>
                     @error('reserva_id') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror

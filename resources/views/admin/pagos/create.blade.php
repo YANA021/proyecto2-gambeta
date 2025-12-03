@@ -24,8 +24,8 @@
                     <label class="mb-1 block text-sm font-semibold text-slate-700">Reserva</label>
                     <select name="reserva_id" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
                         <option value="">Seleccione una reserva...</option>
-                        @foreach($reservas as $id => $label)
-                            <option value="{{ $id }}">Reserva #{{ $id }}</option>
+                        @foreach($reservas as $reserva)
+                            <option value="{{ $reserva->id }}">Reserva #{{ $loop->iteration }}</option>
                         @endforeach
                     </select>
                     @error('reserva_id') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
