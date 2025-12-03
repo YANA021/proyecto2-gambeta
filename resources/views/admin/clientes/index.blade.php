@@ -45,7 +45,7 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($clientes as $cliente)
                         <tr class="hover:bg-slate-50">
-                            <td class="px-4 py-3 font-semibold text-slate-900">#{{ $cliente->id }}</td>
+                            <td class="px-4 py-3 font-semibold text-slate-900">#{{ $loop->iteration }}</td>
                             <td class="px-4 py-3">{{ $cliente->nombre }}</td>
                             <td class="px-4 py-3">{{ $cliente->telefono }}</td>
                             <td class="px-4 py-3">{{ $cliente->grupo->nombre ?? '—' }}</td>
