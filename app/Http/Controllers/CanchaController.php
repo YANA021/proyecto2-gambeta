@@ -11,7 +11,7 @@ class CanchaController extends Controller
 {
     public function index()
     {
-        $canchas = Cancha::with('tipoCancha')->latest()->paginate(10);
+        $canchas = Cancha::with('tipoCancha')->orderBy('id', 'asc')->paginate(10);
 
         return view('admin.canchas.index', compact('canchas'));
     }

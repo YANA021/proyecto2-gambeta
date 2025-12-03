@@ -46,7 +46,7 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($canchas as $cancha)
                         <tr class="hover:bg-slate-50">
-                            <td class="px-4 py-3 font-semibold text-slate-900">#{{ $cancha->id }}</td>
+                            <td class="px-4 py-3 font-semibold text-slate-900">#{{ $loop->iteration }}</td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center gap-3">
                                     @if($cancha->foto)
