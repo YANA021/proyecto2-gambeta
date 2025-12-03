@@ -6,10 +6,6 @@ Integrantes:
 - Diego Alejandro Flores Montesinos (XxAlexX003)
 - Jasson Armando Gómez Guevara (jason7337)
 
-> 💡 Nota: los comandos se muestran en bloques `bash` para que puedas copiar y pegar fácilmente:
-> ```bash
-> ./vendor/bin/sail up -d
-> ```
 
 Aplicación web desarrollada con **Laravel 12**, **Livewire v3**, **TailwindCSS**, **MySQL** y **Laravel Sail (Docker)**.
 
