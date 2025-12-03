@@ -10,7 +10,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = Cliente::with('grupo')->latest()->paginate(10);
+        $clientes = Cliente::with('grupo')->orderBy('id', 'asc')->paginate(10);
 
         return view('admin.clientes.index', compact('clientes'));
     }
