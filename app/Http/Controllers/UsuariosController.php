@@ -33,7 +33,13 @@ class UsuariosController extends Controller
 
         Usuario::create($data);
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
+        $message = 'Usuario creado correctamente.';
+
+        if ($request->boolean('redirect_to_dashboard')) {
+            return redirect()->route('admin.dashboard')->with('success', $message);
+        }
+
+        return redirect()->route('usuarios.index')->with('success', $message);
     }
 
     public function show(Usuario $usuario)

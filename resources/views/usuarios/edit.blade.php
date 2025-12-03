@@ -7,32 +7,43 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto bg-white shadow rounded-lg p-6">
-            <h1 class="text-2xl font-bold mb-6">Editar Usuario</h1>
-
-            @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <ul class="list-disc list-inside">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+    <div class="min-h-screen bg-bg-primary py-12 px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.2em] text-text-secondary">usuarios</p>
+                    <h1 class="text-3xl font-bold text-text-primary">Editar usuario</h1>
                 </div>
-            @endif
+                <a href="{{ route('usuarios.index') }}" class="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary hover:bg-bg-secondary transition-colors">
+                    ← Volver al listado
+                </a>
+            </div>
 
-            <form action="{{ route('usuarios.update', $usuario) }}" method="POST" class="space-y-4">
+            <div class="rounded-2xl border border-border bg-white p-8 shadow-lg">
+                <h2 class="text-xl font-bold text-text-primary mb-6">Información del usuario</h2>
+
+                @if ($errors->any())
+                    <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                        <ul class="list-disc list-inside space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+            <form action="{{ route('usuarios.update', $usuario) }}" method="POST" class="space-y-5">
                 @csrf
                 @method('PUT')
 
                 <div>
-                    <label for="nombre_usuario" class="block text-gray-700 font-semibold mb-2">Nombre de usuario</label>
+                    <label for="nombre_usuario" class="mb-2 block text-sm font-semibold text-text-primary uppercase tracking-wide">Nombre de usuario</label>
                     <input
                         type="text"
                         id="nombre_usuario"
                         name="nombre_usuario"
                         value="{{ old('nombre_usuario', $usuario->nombre_usuario) }}"
-                        class="w-full border border-gray-300 rounded px-3 py-2 @error('nombre_usuario') border-red-500 @enderror"
+                        class="w-full rounded-lg border border-border bg-bg-secondary/40 px-4 py-3 text-text-primary focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary @error('nombre_usuario') border-red-400 focus:border-red-500 focus:ring-red-500 @enderror"
                         required
                     >
                     @error('nombre_usuario')
@@ -41,12 +52,12 @@
                 </div>
 
                 <div>
-                    <label for="contrasena" class="block text-gray-700 font-semibold mb-2">Contraseña</label>
+                    <label for="contrasena" class="mb-2 block text-sm font-semibold text-text-primary uppercase tracking-wide">Contraseña</label>
                     <input
                         type="password"
                         id="contrasena"
                         name="contrasena"
-                        class="w-full border border-gray-300 rounded px-3 py-2 @error('contrasena') border-red-500 @enderror"
+                        class="w-full rounded-lg border border-border bg-bg-secondary/40 px-4 py-3 text-text-primary focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary @error('contrasena') border-red-400 focus:border-red-500 focus:ring-red-500 @enderror"
                         placeholder="Dejar en blanco para mantener la actual"
                     >
                     @error('contrasena')
@@ -54,55 +65,35 @@
                     @enderror
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="empleado_id" class="block text-gray-700 font-semibold mb-2">Empleado</label>
-                        <select
-                            id="empleado_id"
-                            name="empleado_id"
-                            class="w-full border border-gray-300 rounded px-3 py-2 @error('empleado_id') border-red-500 @enderror"
-                        >
-                            <option value="">Sin asignar</option>
-                            @foreach($empleados as $id => $nombre)
-                                <option value="{{ $id }}" @selected(old('empleado_id', $usuario->empleado_id) == $id)>
-                                    {{ $nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('empleado_id')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="rol_id" class="block text-gray-700 font-semibold mb-2">Rol</label>
-                        <select
-                            id="rol_id"
-                            name="rol_id"
-                            class="w-full border border-gray-300 rounded px-3 py-2 @error('rol_id') border-red-500 @enderror"
-                        >
-                            <option value="">Asignar automáticamente ({{ \App\Models\Roles::DEFAULT_ROLE }})</option>
-                            @foreach($roles as $id => $nombre)
-                                <option value="{{ $id }}" @selected(old('rol_id', $usuario->rol_id) == $id)>
-                                    {{ ucfirst($nombre) }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('rol_id')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <div>
+                    <label for="rol_id" class="mb-2 block text-sm font-semibold text-text-primary uppercase tracking-wide">Rol</label>
+                    <select
+                        id="rol_id"
+                        name="rol_id"
+                        class="w-full rounded-lg border border-border bg-bg-secondary/40 px-4 py-3 text-text-primary focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary @error('rol_id') border-red-400 focus:border-red-500 focus:ring-red-500 @enderror"
+                    >
+                        <option value="">Asignar automáticamente ({{ \App\Models\Roles::DEFAULT_ROLE }})</option>
+                        @foreach($roles as $id => $nombre)
+                            <option value="{{ $id }}" @selected(old('rol_id', $usuario->rol_id) == $id)>
+                                {{ ucfirst($nombre) }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('rol_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="flex gap-2">
-                    <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-                        Actualizar
+                <div class="mt-6 flex flex-col gap-3 md:flex-row">
+                    <button type="submit" class="flex-1 rounded-lg bg-brand-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2">
+                        Actualizar usuario
                     </button>
-                    <a href="{{ route('usuarios.index') }}" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded text-center">
+                    <a href="{{ route('usuarios.index') }}" class="flex-1 rounded-lg border border-border px-5 py-3 text-center text-sm font-semibold text-text-primary hover:bg-bg-secondary">
                         Cancelar
                     </a>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </body>

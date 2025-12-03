@@ -55,6 +55,10 @@ class PagoController extends Controller
 
     public function destroy(Pago $pago)
     {
+        if (auth()->user()?->hasRole('empleado')) {
+            abort(403, 'Los empleados no pueden eliminar pagos.');
+        }
+
         $pago->delete();
         return redirect()->route('pagos.index')->with('success', 'Pago eliminado correctamente.');
     }

@@ -25,7 +25,10 @@ class CheckRole
         // normalizamos a minúsculas para comparación
         $roles = array_map('strtolower', $roles);
         if (!in_array(strtolower($userRole), $roles)) {
-            abort(403, 'No tienes permisos para acceder a esta sección');
+            $dashboardRoute = strtolower($userRole) === 'administrador'
+                ? 'admin.dashboard'
+                : 'empleado.dashboard';
+            return redirect()->route($dashboardRoute);
         }
 
         return $next($request);

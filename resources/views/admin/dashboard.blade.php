@@ -5,11 +5,17 @@
         </h2>
     </x-slot>
 
+    @php
+        $isAdmin = strtolower(auth()->user()->rol->nombre ?? '') === 'administrador';
+    @endphp
 
-
-    
     <div class="py-6 md:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            @if (session('success'))
+                <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800 shadow">
+                    {{ session('success') }}
+                </div>
+            @endif
             
             <!-- hero section -->
             <div class="bg-gradient-to-br from-bg-surface via-bg-surface to-brand-primary/5 rounded-2xl shadow-lg p-6 md:p-8 relative overflow-hidden border border-border">
@@ -276,6 +282,156 @@
                             </a>
                         </div>
                     </div>
+
+                    @if($isAdmin)
+                        <div class="bg-bg-surface rounded-xl shadow-md p-6 border border-border" id="usuariosQuickSection">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <p class="text-xs uppercase tracking-wider text-text-secondary mb-1 font-semibold">usuarios</p>
+                                    <h6 class="font-bold text-text-primary">crear usuario rápido</h6>
+                                </div>
+                                <button type="button" id="openUsuariosModal" class="text-xs font-semibold text-brand-primary hover:text-brand-hover transition-colors">ver todos</button>
+                            </div>
+
+                            <form action="{{ route('usuarios.store') }}" method="POST" class="space-y-4">
+                                @csrf
+                                <input type="hidden" name="redirect_to_dashboard" value="1">
+
+                                <div>
+                                    <label for="nombre_usuario" class="block text-xs font-semibold uppercase tracking-wide text-text-secondary mb-1">nombre de usuario</label>
+                                    <input
+                                        type="text"
+                                        id="nombre_usuario"
+                                        name="nombre_usuario"
+                                        value="{{ old('nombre_usuario') }}"
+                                        class="w-full rounded-lg border border-border bg-bg-secondary/40 px-3 py-2 text-sm text-text-primary focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary @error('nombre_usuario') border-red-400 focus:border-red-500 focus:ring-red-500 @enderror"
+                                        placeholder="ej: admin.gambeta"
+                                        required
+                                    >
+                                    @error('nombre_usuario')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="contrasena" class="block text-xs font-semibold uppercase tracking-wide text-text-secondary mb-1">contraseña</label>
+                                    <input
+                                        type="password"
+                                        id="contrasena"
+                                        name="contrasena"
+                                        class="w-full rounded-lg border border-border bg-bg-secondary/40 px-3 py-2 text-sm text-text-primary focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary @error('contrasena') border-red-400 focus:border-red-500 focus:ring-red-500 @enderror"
+                                        placeholder="mínimo 8 caracteres"
+                                        required
+                                    >
+                                    @error('contrasena')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="rol_id" class="block text-xs font-semibold uppercase tracking-wide text-text-secondary mb-1">rol</label>
+                                    <select
+                                        id="rol_id"
+                                        name="rol_id"
+                                        class="w-full rounded-lg border border-border bg-bg-secondary/40 px-3 py-2 text-sm text-text-primary focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary @error('rol_id') border-red-400 focus:border-red-500 focus:ring-red-500 @enderror"
+                                        required
+                                    >
+                                        <option value="" disabled {{ old('rol_id') ? '' : 'selected' }}>selecciona un rol</option>
+                                        @foreach(($rolesDisponibles ?? collect()) as $rol)
+                                            <option value="{{ $rol->id }}" @selected(old('rol_id') == $rol->id)>{{ ucfirst($rol->nombre) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('rol_id')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <button type="submit" class="w-full rounded-lg bg-brand-primary py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2">
+                                    crear usuario
+                                </button>
+                            </form>
+                        </div>
+                        <div id="usuariosModal" class="hidden fixed inset-0 z-50 bg-black/60 p-4 overflow-y-auto">
+                            <div class="mx-auto w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <p class="text-xs uppercase tracking-[0.2em] text-text-secondary">usuarios</p>
+                                        <h3 class="text-xl font-bold text-text-primary">Listado rápido</h3>
+                                        <p class="text-xs text-text-secondary">Últimos registrados ({{ ($recentUsuarios ?? collect())->count() }})</p>
+                                    </div>
+                                    <button type="button" id="closeUsuariosModal" class="text-text-secondary hover:text-text-primary">✕</button>
+                                </div>
+                                <div class="overflow-x-auto rounded-xl border border-border">
+                                    <table class="w-full text-left text-sm">
+                                        <thead class="bg-bg-secondary/60 text-text-secondary uppercase text-xs tracking-wider">
+                                            <tr>
+                                                <th class="px-4 py-3 font-semibold">Usuario</th>
+                                                <th class="px-4 py-3 font-semibold">Rol</th>
+                                                <th class="px-4 py-3 font-semibold">Creado</th>
+                                                <th class="px-4 py-3 font-semibold text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-border">
+                                            @forelse(($recentUsuarios ?? collect()) as $usuario)
+                                                <tr class="bg-white hover:bg-bg-secondary/40 transition-colors">
+                                                    <td class="px-4 py-3 font-semibold text-text-primary">{{ $usuario->nombre_usuario }}</td>
+                                                    <td class="px-4 py-3 text-text-secondary capitalize">{{ $usuario->rol->nombre ?? \App\Models\Roles::DEFAULT_ROLE }}</td>
+                                                    <td class="px-4 py-3 text-text-secondary">{{ optional($usuario->created_at)->format('d/m/Y H:i') }}</td>
+                                                    <td class="px-4 py-3">
+                                                        <div class="flex justify-end gap-2">
+                                                            <a href="{{ route('usuarios.edit', $usuario) }}" class="rounded-md border border-brand-primary/40 px-3 py-1 text-xs font-semibold text-brand-primary hover:bg-brand-primary hover:text-white">Editar</a>
+                                                            <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" class="inline-flex" onsubmit="return confirm('¿Eliminar este usuario?');">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="rounded-md border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 hover:bg-red-100">
+                                                                    Eliminar
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4" class="px-4 py-6 text-center text-text-secondary">No hay usuarios registrados.</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-4 flex justify-end gap-3">
+                                    <a href="{{ route('usuarios.index') }}" class="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary hover:bg-bg-secondary">Ir al listado completo</a>
+                                    <button type="button" id="closeUsuariosModalFooter" class="rounded-lg bg-brand-primary px-4 py-2 text-sm font-semibold text-white hover:bg-brand-hover">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const modal = document.getElementById('usuariosModal');
+                                const open = document.getElementById('openUsuariosModal');
+                                const closeButtons = [document.getElementById('closeUsuariosModal'), document.getElementById('closeUsuariosModalFooter')];
+                                const toggleModal = (show) => {
+                                    if (!modal) return;
+                                    modal.classList.toggle('hidden', !show);
+                                    document.body.classList.toggle('overflow-hidden', show);
+                                };
+                                open?.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    toggleModal(true);
+                                });
+                                closeButtons.forEach(btn => btn?.addEventListener('click', () => toggleModal(false)));
+                                modal?.addEventListener('click', (event) => {
+                                    if (event.target === modal) {
+                                        toggleModal(false);
+                                    }
+                                });
+                                document.addEventListener('keydown', (event) => {
+                                    if (event.key === 'Escape') {
+                                        toggleModal(false);
+                                    }
+                                });
+                            });
+                        </script>
+                    @endif
 
                     <!-- tipos de cancha -->
                     <div class="bg-bg-surface rounded-xl shadow-md p-6 border border-border">
