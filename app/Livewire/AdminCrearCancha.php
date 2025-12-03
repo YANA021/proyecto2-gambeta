@@ -39,12 +39,10 @@ class AdminCrearCancha extends Component
             'tipo_id' => ['required', 'exists:tipo_canchas,id'],
             'precio_hora' => ['required', 'numeric', 'min:0'],
             'disponible' => ['boolean'],
-            'foto' => ['nullable', 'image', 'max:2048'],
+            'foto' => ['required', 'image', 'max:2048'],
         ]);
 
-        if ($this->foto) {
-            $data['foto'] = $this->foto->store('canchas', 'public');
-        }
+        $data['foto'] = $this->foto->store('canchas', 'public');
 
         Cancha::create($data);
 

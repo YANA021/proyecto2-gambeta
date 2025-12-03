@@ -36,9 +36,17 @@
                             <label class="text-sm text-text-secondary">Disponible</label>
                         </div>
                         <div class="md:col-span-2">
-                            <label class="text-sm font-semibold text-text-primary">Foto (opcional)</label>
-                            <input type="file" wire:model="foto" class="w-full rounded-lg border border-border px-3 py-2 text-sm">
-                            @error('foto') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
+                        <label class="text-sm font-semibold text-text-primary">Foto</label>
+                        <label class="relative block rounded-lg border border-dashed border-brand-primary/60 bg-brand-primary/5 px-4 py-3 text-sm font-semibold text-brand-primary cursor-pointer hover:bg-brand-primary/10 transition">
+                            <span class="inline-flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-8h.01M6 20h12a2 2 0 002-2V8a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Escoger una imagen
+                            </span>
+                            <input type="file" wire:model="foto" required class="absolute inset-0 opacity-0 cursor-pointer">
+                        </label>
+                        @error('foto') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
                     <div class="flex justify-end gap-3 pt-2">
