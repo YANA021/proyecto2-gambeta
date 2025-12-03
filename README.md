@@ -55,20 +55,6 @@ Laravel requiere un archivo `.env` para configuraciones del entorno.
 cp .env.example .env
 ```
 
-Editar los valores de conexión para Docker/Sail:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=gambeta
-DB_USERNAME=sail
-DB_PASSWORD=123456
-```
-
-> ⚠️ Nota: No subas tu archivo `.env` real a GitHub.
-
----
 
 ## 🟦 5. Instalar dependencias de PHP con Composer dentro de Sail
 
