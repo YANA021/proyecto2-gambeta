@@ -284,13 +284,13 @@
                     </div>
 
                     @if($isAdmin)
-                        <div class="bg-bg-surface rounded-xl shadow-md p-6 border border-border">
+                        <div class="bg-bg-surface rounded-xl shadow-md p-6 border border-border" id="usuariosQuickSection">
                             <div class="flex items-center justify-between mb-4">
                                 <div>
                                     <p class="text-xs uppercase tracking-wider text-text-secondary mb-1 font-semibold">usuarios</p>
                                     <h6 class="font-bold text-text-primary">crear usuario rápido</h6>
                                 </div>
-                                <a href="{{ route('usuarios.index') }}" class="text-xs font-semibold text-brand-primary hover:text-brand-hover">ver todos</a>
+                                <button type="button" id="openUsuariosModal" class="text-xs font-semibold text-brand-primary hover:text-brand-hover transition-colors">ver todos</button>
                             </div>
 
                             <form action="{{ route('usuarios.store') }}" method="POST" class="space-y-4">
@@ -351,6 +351,86 @@
                                 </button>
                             </form>
                         </div>
+                        <div id="usuariosModal" class="hidden fixed inset-0 z-50 bg-black/60 p-4 overflow-y-auto">
+                            <div class="mx-auto w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <p class="text-xs uppercase tracking-[0.2em] text-text-secondary">usuarios</p>
+                                        <h3 class="text-xl font-bold text-text-primary">Listado rápido</h3>
+                                        <p class="text-xs text-text-secondary">Últimos registrados ({{ ($recentUsuarios ?? collect())->count() }})</p>
+                                    </div>
+                                    <button type="button" id="closeUsuariosModal" class="text-text-secondary hover:text-text-primary">✕</button>
+                                </div>
+                                <div class="overflow-x-auto rounded-xl border border-border">
+                                    <table class="w-full text-left text-sm">
+                                        <thead class="bg-bg-secondary/60 text-text-secondary uppercase text-xs tracking-wider">
+                                            <tr>
+                                                <th class="px-4 py-3 font-semibold">Usuario</th>
+                                                <th class="px-4 py-3 font-semibold">Rol</th>
+                                                <th class="px-4 py-3 font-semibold">Creado</th>
+                                                <th class="px-4 py-3 font-semibold text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-border">
+                                            @forelse(($recentUsuarios ?? collect()) as $usuario)
+                                                <tr class="bg-white hover:bg-bg-secondary/40 transition-colors">
+                                                    <td class="px-4 py-3 font-semibold text-text-primary">{{ $usuario->nombre_usuario }}</td>
+                                                    <td class="px-4 py-3 text-text-secondary capitalize">{{ $usuario->rol->nombre ?? \App\Models\Roles::DEFAULT_ROLE }}</td>
+                                                    <td class="px-4 py-3 text-text-secondary">{{ optional($usuario->created_at)->format('d/m/Y H:i') }}</td>
+                                                    <td class="px-4 py-3">
+                                                        <div class="flex justify-end gap-2">
+                                                            <a href="{{ route('usuarios.edit', $usuario) }}" class="rounded-md border border-brand-primary/40 px-3 py-1 text-xs font-semibold text-brand-primary hover:bg-brand-primary hover:text-white">Editar</a>
+                                                            <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" class="inline-flex" onsubmit="return confirm('¿Eliminar este usuario?');">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="rounded-md border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 hover:bg-red-100">
+                                                                    Eliminar
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4" class="px-4 py-6 text-center text-text-secondary">No hay usuarios registrados.</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-4 flex justify-end gap-3">
+                                    <a href="{{ route('usuarios.index') }}" class="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary hover:bg-bg-secondary">Ir al listado completo</a>
+                                    <button type="button" id="closeUsuariosModalFooter" class="rounded-lg bg-brand-primary px-4 py-2 text-sm font-semibold text-white hover:bg-brand-hover">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const modal = document.getElementById('usuariosModal');
+                                const open = document.getElementById('openUsuariosModal');
+                                const closeButtons = [document.getElementById('closeUsuariosModal'), document.getElementById('closeUsuariosModalFooter')];
+                                const toggleModal = (show) => {
+                                    if (!modal) return;
+                                    modal.classList.toggle('hidden', !show);
+                                    document.body.classList.toggle('overflow-hidden', show);
+                                };
+                                open?.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    toggleModal(true);
+                                });
+                                closeButtons.forEach(btn => btn?.addEventListener('click', () => toggleModal(false)));
+                                modal?.addEventListener('click', (event) => {
+                                    if (event.target === modal) {
+                                        toggleModal(false);
+                                    }
+                                });
+                                document.addEventListener('keydown', (event) => {
+                                    if (event.key === 'Escape') {
+                                        toggleModal(false);
+                                    }
+                                });
+                            });
+                        </script>
                     @endif
 
                     <!-- tipos de cancha -->

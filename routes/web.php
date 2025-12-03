@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TipoCanchaController;
 use App\Http\Controllers\CanchaController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ClienteController;
@@ -45,21 +45,17 @@ Route::middleware(['auth'])->group(function () {
             ->get();
 
         $tipos = \App\Models\TipoCancha::all();
-        $clientes = \App\Models\Cliente::orderBy('nombre')->get();
-        $canchasDisponibles = \App\Models\Cancha::orderBy('nombre')->get();
-        $estadosReserva = \App\Models\EstadoReserva::orderBy('nombre')->get();
-        $grupos = \App\Models\Grupo::orderBy('nombre')->get();
+        $recentUsuarios = \App\Models\Usuario::with('rol')
+            ->latest()
+            ->take(10)
+            ->get(['id', 'nombre_usuario', 'rol_id', 'created_at']);
 
-        return view('admin.dashboard', [
-            'stats' => $stats,
-            'recentReservas' => $recentReservas,
-            'recentPagos' => $recentPagos,
-            'tipos' => $tipos,
-            'clientesListado' => $clientes,
-            'canchasListado' => $canchasDisponibles,
-            'estadosReserva' => $estadosReserva,
-            'gruposListado' => $grupos,
-        ]);
+        $rolesDisponibles = \App\Models\Roles::query()
+            ->whereIn('nombre', \App\Models\Roles::PERMITTED_ROLES)
+            ->orderBy('nombre')
+            ->get(['id', 'nombre']);
+
+        return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos', 'rolesDisponibles', 'recentUsuarios'));
     })->name('admin.dashboard');
 
     // solo admin (configuración y reportes)

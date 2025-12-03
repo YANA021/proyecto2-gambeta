@@ -7,11 +7,14 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto px-4 py-10">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold">Usuarios</h1>
-            <a href="{{ route('usuarios.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-                Nuevo Usuario
+            <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-text-secondary">panel</p>
+                <h1 class="text-3xl font-bold text-text-primary">Usuarios</h1>
+            </div>
+            <a href="{{ route('admin.dashboard') }}" class="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary hover:bg-bg-secondary transition-colors">
+                ← Volver al dashboard
             </a>
         </div>
 
@@ -21,37 +24,38 @@
             </div>
         @endif
 
-        <div class="overflow-x-auto bg-white shadow rounded-lg">
-            <table class="w-full text-left">
-                <thead class="bg-gray-200 text-gray-700">
+        <div class="overflow-x-auto rounded-2xl border border-border bg-bg-surface shadow">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-bg-secondary/60 text-text-secondary uppercase text-xs tracking-wider">
                     <tr>
                         <th class="px-6 py-3 font-semibold">Nombre de usuario</th>
                         <th class="px-6 py-3 font-semibold">Rol</th>
                         <th class="px-6 py-3 font-semibold">Creado</th>
-                        <th class="px-6 py-3 font-semibold">Acciones</th>
+                        <th class="px-6 py-3 font-semibold text-right">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-border">
                     @forelse($usuarios as $usuario)
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium">{{ $usuario->nombre_usuario }}</td>
-                            <td class="px-6 py-4">{{ $usuario->rol->nombre ?? ucfirst(\App\Models\Roles::DEFAULT_ROLE) }}</td>
-                            <td class="px-6 py-4">{{ $usuario->created_at?->format('d/m/Y H:i') }}</td>
-                            <td class="px-6 py-4 flex flex-wrap gap-2">
-                                <a href="{{ route('usuarios.show', $usuario) }}" class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold py-1 px-3 rounded">Ver</a>
-                                <a href="{{ route('usuarios.edit', $usuario) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-semibold py-1 px-3 rounded">Editar</a>
-                                <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" class="inline-flex" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1 px-3 rounded">
-                                        Eliminar
-                                    </button>
-                                </form>
+                        <tr class="bg-white hover:bg-bg-secondary/40 transition-colors">
+                            <td class="px-6 py-4 font-semibold text-text-primary">{{ $usuario->nombre_usuario }}</td>
+                            <td class="px-6 py-4 text-text-secondary capitalize">{{ $usuario->rol->nombre ?? ucfirst(\App\Models\Roles::DEFAULT_ROLE) }}</td>
+                            <td class="px-6 py-4 text-text-secondary">{{ $usuario->created_at?->format('d/m/Y H:i') }}</td>
+                            <td class="px-6 py-4">
+                                <div class="flex justify-end gap-2">
+                                    <a href="{{ route('usuarios.edit', $usuario) }}" class="rounded-md border border-brand-primary/40 px-3 py-1 text-xs font-semibold text-brand-primary hover:bg-brand-primary hover:text-white">Editar</a>
+                                    <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" class="inline-flex" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="rounded-md border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 hover:bg-red-100">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                            <td colspan="4" class="px-6 py-6 text-center text-text-secondary">
                                 No hay usuarios registrados.
                             </td>
                         </tr>
