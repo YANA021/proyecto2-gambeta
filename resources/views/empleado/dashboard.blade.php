@@ -160,8 +160,7 @@
                         <a href="{{ route('reservas.index') }}" class="btn btn-outline-primary">Ver Todas las Reservas</a>
                         <a href="{{ route('pagos.index') }}" class="btn btn-outline-success">Ver Pagos</a>
                         <a href="{{ route('clientes.index') }}" class="btn btn-outline-info">Ver Clientes</a>
-                        <a href="{{ route('bloqueos.index') }}" class="btn btn-outline-danger">🚫 Bloqueos</a>
-                        <a href="{{ route('historial.clientesFrecuentes') }}" class="btn btn-outline-warning">🏆 TOP Clientes</a>
+                        <a href="{{ route('reservas.calendar') }}" class="btn btn-outline-secondary">Calendario</a>
                     </div>
                 </div>
 

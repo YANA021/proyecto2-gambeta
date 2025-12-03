@@ -80,16 +80,18 @@ new class extends Component
                 <span class="font-medium">reservas</span>
             </a>
             
-            @php $isCanchasActive = request()->routeIs('canchas.*'); @endphp
-            <a href="{{ route('canchas.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isCanchasActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
-                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isCanchasActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
-                
-                <!-- icono svg cancha -->
-                <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                </svg>
-                <span class="font-medium">canchas</span>
-            </a>
+            @if($isAdmin)
+                @php $isCanchasActive = request()->routeIs('canchas.*'); @endphp
+                <a href="{{ route('canchas.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isCanchasActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isCanchasActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
+                    
+                    <!-- icono svg cancha -->
+                    <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <span class="font-medium">canchas</span>
+                </a>
+            @endif
 
             @php $isClientesActive = request()->routeIs('clientes.*'); @endphp
             <a href="{{ route('clientes.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isClientesActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
@@ -112,6 +114,19 @@ new class extends Component
                 </svg>
                 <span class="font-medium">pagos</span>
             </a>
+
+            @if($isAdmin)
+                @php $isReportesActive = request()->routeIs('reportes.*'); @endphp
+                <a href="{{ route('reportes.index') }}" wire:navigate class="relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {{ $isReportesActive ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-secondary hover:bg-bg-secondary hover:text-text-primary' }}">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-primary rounded-r-full transition-all duration-200 {{ $isReportesActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0' }}"></div>
+                    
+                    <!-- icono svg reportes -->
+                    <svg class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v4H3V3zm0 6h10v4H3V9zm0 6h6v4H3v-4zm12 0h6v4h-6v-4zm2-6h4v4h-4v-4z"></path>
+                    </svg>
+                    <span class="font-medium">reportes</span>
+                </a>
+            @endif
         </div>
 
         <!-- user profile (bottom) -->

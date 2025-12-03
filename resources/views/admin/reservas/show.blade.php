@@ -53,14 +53,16 @@
             <div class="flex flex-wrap gap-3 text-sm font-semibold pt-2">
                 <a href="{{ route('reservas.edit', $reserva) }}"
                    class="rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">Editar</a>
-                <form action="{{ route('reservas.destroy', $reserva) }}" method="POST"
-                      onsubmit="return confirm('¿Eliminar esta reserva?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="rounded-lg bg-rose-500 px-4 py-2 text-white hover:bg-rose-600">
-                        Eliminar
-                    </button>
-                </form>
+                @if(auth()->user()->hasRole('administrador'))
+                    <form action="{{ route('reservas.destroy', $reserva) }}" method="POST"
+                          onsubmit="return confirm('¿Eliminar esta reserva?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="rounded-lg bg-rose-500 px-4 py-2 text-white hover:bg-rose-600">
+                            Eliminar
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
