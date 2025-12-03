@@ -144,8 +144,31 @@ Mantén esta terminal abierta durante el desarrollo.
 http://localhost
 http://localhost:8082/   # phpMyAdmin si está configurado
 ```
-
 ---
+## 🟦 13. Crear enlace de almacenamiento (REQUERIDO para imágenes)
+
+Laravel necesita un enlace simbólico para que las imágenes subidas (canchas, clientes, etc.) se muestren correctamente.
+
+Ejecutar:
+
+```bash
+./vendor/bin/sail artisan storage:link
+---
+```
+Esto creará:
+```bash
+public/storage → storage/app/public
+---
+```
+🟦 14. Configuración recomendada en .env
+Asegúrate de tener los siguientes valores:
+
+```bash
+FILESYSTEM_DISK=public
+APP_URL=http://localhost
+📌 Si usas un dominio o IP diferente, actualiza APP_URL según tu entorno.
+```
+
 
 # 📦 Tecnologías principales
 
