@@ -55,10 +55,17 @@
                 </div>
 
                 <div>
-                    <label class="text-sm font-semibold text-slate-700">Foto (opcional)</label>
-                    <input type="file" name="foto" accept="image/*"
-                           class="mt-1 w-full text-sm text-slate-700 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800">
-                    @error('foto') <p class="text-xs text-rose-600">{{ $message }}</p> @enderror
+                    <label class="text-sm font-semibold text-slate-700">Foto (obligatoria)</label>
+                    <label class="mt-1 relative block rounded-lg border border-dashed border-slate-300 bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-800 cursor-pointer hover:border-slate-400 hover:bg-slate-200 transition">
+                        <span class="inline-flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-8h.01M6 20h12a2 2 0 002-2V8a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            Escoger una imagen
+                        </span>
+                        <input type="file" name="foto" accept="image/*" required class="absolute inset-0 opacity-0 cursor-pointer">
+                    </label>
+                    @error('foto') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="pt-2">

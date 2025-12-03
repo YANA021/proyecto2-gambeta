@@ -154,7 +154,7 @@ new class extends Component
                      x-transition:leave-end="opacity-0 translate-y-2"
                      class="absolute bottom-full left-0 w-full mb-2 bg-bg-surface border border-border rounded-xl shadow-xl overflow-hidden z-50">
                     
-                    <a href="{{ url('/profile') }}" wire:navigate class="block px-4 py-3 text-sm text-text-primary hover:bg-bg-secondary hover:text-brand-primary transition-colors flex items-center gap-3">
+                    <a href="{{ route('admin.perfil') }}" wire:navigate class="block px-4 py-3 text-sm text-text-primary hover:bg-bg-secondary hover:text-brand-primary transition-colors flex items-center gap-3">
                         <!-- icono svg perfil -->
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>

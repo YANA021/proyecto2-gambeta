@@ -58,6 +58,10 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos', 'rolesDisponibles', 'recentUsuarios'));
     })->middleware(['role:Administrador'])->name('admin.dashboard');
 
+    Route::get('/perfil', function () {
+        return view('admin.perfil', ['usuario' => auth()->user()]);
+    })->name('admin.perfil');
+
     // solo admin (configuración y reportes)
     Route::middleware(['role:Administrador'])->group(function () {
         Route::resource('tipo_canchas', TipoCanchaController::class);

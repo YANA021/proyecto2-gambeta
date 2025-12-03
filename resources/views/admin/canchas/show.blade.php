@@ -39,12 +39,12 @@
 
                     <div>
                         <div class="overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
-                            @if($cancha->foto)
-                                <img src="{{ Storage::url($cancha->foto) }}" alt="Foto cancha"
+                            @if($cancha->foto && \Illuminate\Support\Facades\Storage::disk('public')->exists($cancha->foto))
+                                <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($cancha->foto) }}" alt="Foto cancha"
                                      class="h-56 w-full object-cover">
                             @else
                                 <div class="flex h-56 items-center justify-center text-sm text-slate-500">
-                                    Sin foto
+                                    Sin foto disponible
                                 </div>
                             @endif
                         </div>
