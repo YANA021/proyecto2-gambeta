@@ -26,6 +26,7 @@ Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, '
 // rutas protegidas
 Route::middleware(['auth'])->group(function () {
     
+    // dashboard administrador
     Route::get('/admin', function () {
         $stats = [
             'canchas' => \App\Models\Cancha::count(),
@@ -58,6 +59,25 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos', 'rolesDisponibles', 'recentUsuarios'));
     })->middleware(['role:Administrador'])->name('admin.dashboard');
 
+    // dashboard empleado (solo empleados)
+    Route::middleware(['role:Empleado'])->group(function () {
+        Route::get('/empleado', function () {
+            $stats = [
+                'reservas_hoy' => \App\Models\Reserva::whereDate('fecha', today())->count(),
+                'reservas_pendientes' => \App\Models\Reserva::whereHas('estado', fn($q) => $q->where('nombre', 'Pendiente'))->count(),
+                'ingresos_hoy' => \App\Models\Pago::whereDate('fecha_pago', today())->sum('monto'),
+                'clientes_total' => \App\Models\Cliente::count(),
+            ];
+
+            $reservasHoy = \App\Models\Reserva::with(['cancha', 'cliente', 'estado'])
+                ->whereDate('fecha', today())
+                ->orderBy('hora_inicio')
+                ->get();
+
+            return view('empleado.dashboard', compact('stats', 'reservasHoy'));
+        })->name('empleado.dashboard');
+    });
+
     Route::get('/perfil', function () {
         return view('admin.perfil', ['usuario' => auth()->user()]);
     })->name('admin.perfil');
@@ -77,24 +97,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('estados_reserva', \App\Http\Controllers\EstadoReservaController::class);
     });
 
-    // admin + empleado (operación día a día)
+    // recursos compartidos (admin + empleado)
     Route::middleware(['role:Administrador,Empleado'])->group(function () {
-        Route::get('/empleado', function () {
-            $stats = [
-                'reservas_hoy' => \App\Models\Reserva::whereDate('fecha', today())->count(),
-                'reservas_pendientes' => \App\Models\Reserva::whereHas('estado', fn($q) => $q->where('nombre', 'Pendiente'))->count(),
-                'ingresos_hoy' => \App\Models\Pago::whereDate('fecha_pago', today())->sum('monto'),
-                'clientes_total' => \App\Models\Cliente::count(),
-            ];
-
-            $reservasHoy = \App\Models\Reserva::with(['cancha', 'cliente', 'estado'])
-                ->whereDate('fecha', today())
-                ->orderBy('hora_inicio')
-                ->get();
-
-            return view('empleado.dashboard', compact('stats', 'reservasHoy'));
-        })->name('empleado.dashboard');
-
         Route::get('/reservas/calendar', function () {
             return view('admin.reservas.calendar');
         })->name('reservas.calendar');

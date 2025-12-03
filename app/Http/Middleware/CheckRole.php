@@ -20,15 +20,19 @@ class CheckRole
         }
 
         // asumimos que la relación es 'rol' basada en el plan y el modelo 'usuario'
-        $userRole = auth()->user()->rol->nombre;
+        $userRole = strtolower(auth()->user()->rol->nombre ?? '');
 
         // normalizamos a minúsculas para comparación
         $roles = array_map('strtolower', $roles);
-        if (!in_array(strtolower($userRole), $roles)) {
-            $dashboardRoute = strtolower($userRole) === 'administrador'
-                ? 'admin.dashboard'
-                : 'empleado.dashboard';
-            return redirect()->route($dashboardRoute);
+        if (!in_array($userRole, $roles)) {
+            // redirigir según rol o abortar si no hay match
+            if ($userRole === 'administrador') {
+                return redirect()->route('admin.dashboard');
+            }
+            if ($userRole === 'empleado') {
+                return redirect()->route('empleado.dashboard');
+            }
+            abort(403, 'No tienes permisos para acceder a esta sección');
         }
 
         return $next($request);
