@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TipoCanchaController;
 use App\Http\Controllers\CanchaController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ClienteController;
@@ -46,7 +46,12 @@ Route::middleware(['auth'])->group(function () {
 
         $tipos = \App\Models\TipoCancha::all();
 
-        return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos'));
+        $rolesDisponibles = \App\Models\Roles::query()
+            ->whereIn('nombre', \App\Models\Roles::PERMITTED_ROLES)
+            ->orderBy('nombre')
+            ->get(['id', 'nombre']);
+
+        return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos', 'rolesDisponibles'));
     })->name('admin.dashboard');
 
     // solo admin (configuración y reportes)

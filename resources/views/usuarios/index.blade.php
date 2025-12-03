@@ -25,9 +25,7 @@
             <table class="w-full text-left">
                 <thead class="bg-gray-200 text-gray-700">
                     <tr>
-                        <th class="px-6 py-3 font-semibold">ID</th>
                         <th class="px-6 py-3 font-semibold">Nombre de usuario</th>
-                        <th class="px-6 py-3 font-semibold">Empleado</th>
                         <th class="px-6 py-3 font-semibold">Rol</th>
                         <th class="px-6 py-3 font-semibold">Creado</th>
                         <th class="px-6 py-3 font-semibold">Acciones</th>
@@ -36,9 +34,7 @@
                 <tbody>
                     @forelse($usuarios as $usuario)
                         <tr class="border-b hover:bg-gray-50">
-                            <td class="px-6 py-4">{{ $usuario->id }}</td>
                             <td class="px-6 py-4 font-medium">{{ $usuario->nombre_usuario }}</td>
-                            <td class="px-6 py-4">{{ $usuario->empleado->name ?? 'Sin asignar' }}</td>
                             <td class="px-6 py-4">{{ $usuario->rol->nombre ?? ucfirst(\App\Models\Roles::DEFAULT_ROLE) }}</td>
                             <td class="px-6 py-4">{{ $usuario->created_at?->format('d/m/Y H:i') }}</td>
                             <td class="px-6 py-4 flex flex-wrap gap-2">
