@@ -7,13 +7,12 @@ use App\Models\Cancha;
 use App\Models\Cliente;
 use App\Models\EstadoReserva;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ReservaController extends Controller
 {
     public function index()
     {
-        $this->ensureOnlyAdmins();
-
         $query = Reserva::with(['cancha', 'cliente', 'estado']);
 
         if (request('fecha')) {
@@ -29,11 +28,12 @@ class ReservaController extends Controller
         }
 
         $reservas = $query->latest()->paginate(10);
-        
-        $canchas = Cancha::pluck('nombre', 'id');
+        $canchas = Cancha::where('disponible', true)->pluck('nombre', 'id');
         $estados = EstadoReserva::pluck('nombre', 'id');
+        $isAdmin = auth()->user()?->hasRole('administrador');
+        $dashboardRoute = $isAdmin ? 'admin.dashboard' : 'empleado.dashboard';
 
-        return view('admin.reservas.index', compact('reservas', 'canchas', 'estados'));
+        return view('admin.reservas.index', compact('reservas', 'canchas', 'estados', 'isAdmin', 'dashboardRoute'));
     }
 
     public function create()
@@ -47,7 +47,7 @@ class ReservaController extends Controller
 
     public function store(Request $request)
     {
-        $data = $this->validateData($request);
+        $data = $this->validateData($request, false);
         $data['precio_total'] = $this->calcularPrecio($data['cancha_id'], $data['duracion_horas']);
         Reserva::create($data);
 
@@ -60,10 +60,10 @@ class ReservaController extends Controller
 
     public function show(Reserva $reserva)
     {
-        $this->ensureOnlyAdmins();
-
         $reserva->load(['cancha', 'cliente', 'estado']);
-        return view('admin.reservas.show', compact('reserva'));
+        $isAdmin = auth()->user()?->hasRole('administrador');
+
+        return view('admin.reservas.show', compact('reserva', 'isAdmin'));
     }
 
     public function edit(Reserva $reserva)
@@ -96,10 +96,16 @@ class ReservaController extends Controller
         return redirect()->route('reservas.index')->with('success', 'Reserva eliminada correctamente.');
     }
 
-    private function validateData(Request $request): array
+    private function validateData(Request $request, bool $requireAvailable = true): array
     {
+        $canchaRule = Rule::exists('canchas', 'id');
+
+        if ($requireAvailable) {
+            $canchaRule = $canchaRule->where('disponible', true);
+        }
+
         return $request->validate([
-            'cancha_id' => ['required', 'exists:canchas,id'],
+            'cancha_id' => ['required', $canchaRule],
             'cliente_id' => ['required', 'exists:clientes,id'],
             'fecha' => ['required', 'date'],
             'hora_inicio' => ['required', 'date_format:H:i'],

@@ -7,6 +7,7 @@ use App\Models\Reserva;
 use App\Models\Cliente;
 use App\Models\Cancha;
 use App\Models\EstadoReserva;
+use Illuminate\Validation\Rule;
 
 class CrearReserva extends Component
 {
@@ -27,13 +28,19 @@ class CrearReserva extends Component
     public $nuevoClienteTelefono;
     public $nuevoClienteGrupo;
 
-    protected $rules = [
-        'cancha_id' => 'required|exists:canchas,id',
-        'cliente_id' => 'required|exists:clientes,id',
-        'fecha' => 'required|date|after_or_equal:today',
-        'hora_inicio' => 'required',
-        'duracion_horas' => 'required|integer|min:1|max:8',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'cancha_id' => [
+                'required',
+                Rule::exists('canchas', 'id')->where('disponible', true),
+            ],
+            'cliente_id' => 'required|exists:clientes,id',
+            'fecha' => 'required|date|after_or_equal:today',
+            'hora_inicio' => 'required',
+            'duracion_horas' => 'required|integer|min:1|max:8',
+        ];
+    }
 
     public function mount($cancha_id = null, $fecha = null, $hora = null)
     {
