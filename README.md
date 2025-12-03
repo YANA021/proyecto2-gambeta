@@ -6,10 +6,6 @@ Integrantes:
 - Diego Alejandro Flores Montesinos (XxAlexX003)
 - Jasson Armando Gómez Guevara (jason7337)
 
-> 💡 Nota: los comandos se muestran en bloques `bash` para que puedas copiar y pegar fácilmente:
-> ```bash
-> ./vendor/bin/sail up -d
-> ```
 
 Aplicación web desarrollada con **Laravel 12**, **Livewire v3**, **TailwindCSS**, **MySQL** y **Laravel Sail (Docker)**.
 
@@ -59,20 +55,6 @@ Laravel requiere un archivo `.env` para configuraciones del entorno.
 cp .env.example .env
 ```
 
-Editar los valores de conexión para Docker/Sail:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=gambeta
-DB_USERNAME=sail
-DB_PASSWORD=123456
-```
-
-> ⚠️ Nota: No subas tu archivo `.env` real a GitHub.
-
----
 
 ## 🟦 5. Instalar dependencias de PHP con Composer dentro de Sail
 
@@ -162,8 +144,31 @@ Mantén esta terminal abierta durante el desarrollo.
 http://localhost
 http://localhost:8082/   # phpMyAdmin si está configurado
 ```
-
 ---
+## 🟦 13. Crear enlace de almacenamiento (REQUERIDO para imágenes)
+
+Laravel necesita un enlace simbólico para que las imágenes subidas (canchas, clientes, etc.) se muestren correctamente.
+
+Ejecutar:
+
+```bash
+./vendor/bin/sail artisan storage:link
+---
+```
+Esto creará:
+```bash
+public/storage → storage/app/public
+---
+```
+🟦 14. Configuración recomendada en .env
+Asegúrate de tener los siguientes valores:
+
+```bash
+FILESYSTEM_DISK=public
+APP_URL=http://localhost
+📌 Si usas un dominio o IP diferente, actualiza APP_URL según tu entorno.
+```
+
 
 # 📦 Tecnologías principales
 
