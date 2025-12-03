@@ -12,6 +12,8 @@ class ReservaController extends Controller
 {
     public function index()
     {
+        $this->ensureOnlyAdmins();
+
         $query = Reserva::with(['cancha', 'cliente', 'estado']);
 
         if (request('fecha')) {
@@ -49,17 +51,25 @@ class ReservaController extends Controller
         $data['precio_total'] = $this->calcularPrecio($data['cancha_id'], $data['duracion_horas']);
         Reserva::create($data);
 
-        return redirect()->route('reservas.index')->with('success', 'Reserva creada correctamente.');
+        $redirectRoute = auth()->user()?->hasRole('empleado')
+            ? 'empleado.dashboard'
+            : 'reservas.index';
+
+        return redirect()->route($redirectRoute)->with('success', 'Reserva creada correctamente.');
     }
 
     public function show(Reserva $reserva)
     {
+        $this->ensureOnlyAdmins();
+
         $reserva->load(['cancha', 'cliente', 'estado']);
         return view('admin.reservas.show', compact('reserva'));
     }
 
     public function edit(Reserva $reserva)
     {
+        $this->ensureOnlyAdmins();
+
         $canchas = Cancha::pluck('nombre', 'id');
         $clientes = Cliente::pluck('nombre', 'id');
         $estados = EstadoReserva::pluck('nombre', 'id');
@@ -69,6 +79,8 @@ class ReservaController extends Controller
 
     public function update(Request $request, Reserva $reserva)
     {
+        $this->ensureOnlyAdmins();
+
         $data = $this->validateData($request);
         $data['precio_total'] = $this->calcularPrecio($data['cancha_id'], $data['duracion_horas']);
         $reserva->update($data);
@@ -78,9 +90,7 @@ class ReservaController extends Controller
 
     public function destroy(Reserva $reserva)
     {
-        if (auth()->user()->hasRole('empleado')) {
-            abort(403, 'No autorizado para eliminar reservas');
-        }
+        $this->ensureOnlyAdmins();
 
         $reserva->delete();
         return redirect()->route('reservas.index')->with('success', 'Reserva eliminada correctamente.');
@@ -103,5 +113,12 @@ class ReservaController extends Controller
         $cancha = Cancha::find($canchaId);
         $precioHora = $cancha?->precio_hora ?? 0;
         return (float) ($precioHora * $duracionHoras);
+    }
+
+    private function ensureOnlyAdmins(): void
+    {
+        if (auth()->user()?->hasRole('empleado')) {
+            abort(403, 'Esta acción está limitada a administradores.');
+        }
     }
 }

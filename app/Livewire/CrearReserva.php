@@ -160,7 +160,9 @@ class CrearReserva extends Component
         ]);
 
         session()->flash('success', 'Reserva creada exitosamente');
-        return redirect()->route('reservas.index');
+
+        $redirectRoute = auth()->user()?->hasRole('empleado') ? 'empleado.dashboard' : 'reservas.index';
+        return redirect()->route($redirectRoute);
     }
 
     public function render()

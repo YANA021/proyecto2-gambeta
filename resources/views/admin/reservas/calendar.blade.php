@@ -9,12 +9,15 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
     <div class="mx-auto max-w-6xl px-6 py-10">
+        @php
+            $dashboardRoute = auth()->user()?->hasRole('administrador') ? 'admin.dashboard' : 'empleado.dashboard';
+        @endphp
         <header class="mb-6 flex items-center justify-between">
             <div>
                 <p class="text-xs uppercase tracking-wide text-slate-500">Gestión</p>
                 <h1 class="text-2xl font-bold">Calendario de Reservas</h1>
             </div>
-            <a href="{{ route('admin.dashboard') }}" class="text-sm font-semibold text-slate-600 hover:text-slate-800">Volver al Panel</a>
+            <a href="{{ route($dashboardRoute) }}" class="text-sm font-semibold text-slate-600 hover:text-slate-800">Volver al Panel</a>
         </header>
 
         <livewire:calendario-reservas />

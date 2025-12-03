@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
             ->get(['id', 'nombre']);
 
         return view('admin.dashboard', compact('stats', 'recentReservas', 'recentPagos', 'tipos', 'rolesDisponibles', 'recentUsuarios'));
-    })->name('admin.dashboard');
+    })->middleware(['role:Administrador'])->name('admin.dashboard');
 
     // solo admin (configuración y reportes)
     Route::middleware(['role:Administrador'])->group(function () {
