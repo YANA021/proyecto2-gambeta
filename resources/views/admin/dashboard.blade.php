@@ -35,24 +35,24 @@
                     
                     <!-- botones de acción rápida -->
                     <div class="flex flex-wrap gap-2 w-full md:w-auto">
-                        <a href="{{ route('canchas.create') }}" class="flex-1 md:flex-none px-4 py-2.5 rounded-lg border border-border text-text-primary hover:bg-bg-secondary hover:border-brand-primary/50 transition-all duration-200 flex items-center justify-center gap-2 group">
+                        <button type="button" onclick="window.Livewire?.dispatch('openModalCancha')" class="flex-1 md:flex-none px-4 py-2.5 rounded-lg border border-border text-text-primary hover:bg-bg-secondary hover:border-brand-primary/50 transition-all duration-200 flex items-center justify-center gap-2 group">
                             <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                             </svg>
                             <span class="text-sm font-medium">nueva cancha</span>
-                        </a>
-                        <a href="{{ route('clientes.create') }}" class="flex-1 md:flex-none px-4 py-2.5 rounded-lg border border-border text-text-primary hover:bg-bg-secondary hover:border-brand-primary/50 transition-all duration-200 flex items-center justify-center gap-2 group">
+                        </button>
+                        <button type="button" onclick="window.Livewire?.dispatch('openModalCliente')" class="flex-1 md:flex-none px-4 py-2.5 rounded-lg border border-border text-text-primary hover:bg-bg-secondary hover:border-brand-primary/50 transition-all duration-200 flex items-center justify-center gap-2 group">
                             <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                             </svg>
                             <span class="text-sm font-medium">nuevo cliente</span>
-                        </a>
-                        <a href="{{ route('reservas.create') }}" class="flex-1 md:flex-none px-4 py-2.5 rounded-lg bg-brand-primary text-white hover:bg-brand-hover transition-all duration-200 flex items-center justify-center gap-2 font-semibold shadow-lg shadow-brand-primary/20 hover:shadow-xl hover:shadow-brand-primary/40 group">
+                        </button>
+                        <button type="button" onclick="window.Livewire?.dispatch('openModalReserva')" class="flex-1 md:flex-none px-4 py-2.5 rounded-lg bg-brand-primary text-white hover:bg-brand-hover transition-all duration-200 flex items-center justify-center gap-2 font-semibold shadow-lg shadow-brand-primary/20 hover:shadow-xl hover:shadow-brand-primary/40 group">
                             <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
                             <span class="text-sm">crear reserva</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -383,4 +383,13 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Nueva Cancha -->
+    <livewire:admin-crear-cancha />
+
+    <!-- Modal Nuevo Cliente -->
+    <livewire:admin-crear-cliente />
+
+    <livewire:admin-crear-reserva />
+
 </x-app-layout>
