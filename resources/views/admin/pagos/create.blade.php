@@ -33,13 +33,7 @@
 
                 <div>
                     <label class="mb-1 block text-sm font-semibold text-slate-700">Cliente</label>
-                    <select name="cliente_id" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
-                        <option value="">Seleccione un cliente...</option>
-                        @foreach($clientes as $id => $nombre)
-                            <option value="{{ $id }}">{{ $nombre }}</option>
-                        @endforeach
-                    </select>
-                    @error('cliente_id') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                    <p class="text-xs text-slate-500">Se asigna automáticamente al cliente de la reserva seleccionada.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
@@ -67,11 +61,7 @@
                     </div>
                     <div>
                         <label class="mb-1 block text-sm font-semibold text-slate-700">Estado</label>
-                        <select name="estado_pago" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none">
-                            <option value="completado">Completado</option>
-                            <option value="pendiente">Pendiente</option>
-                        </select>
-                        @error('estado_pago') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        <p class="text-xs text-slate-500">Se calculará automáticamente según el monto pagado.</p>
                     </div>
                 </div>
 
