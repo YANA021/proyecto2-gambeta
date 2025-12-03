@@ -22,6 +22,23 @@ class CrearReserva extends Component
     public $clientes;
     public $estados;
 
+    protected array $messages = [
+        'cancha_id.required' => 'Debes seleccionar una cancha.',
+        'cancha_id.exists' => 'La cancha seleccionada no está disponible.',
+        'cliente_id.required' => 'Debes seleccionar un cliente.',
+        'cliente_id.exists' => 'El cliente seleccionado no existe.',
+        'fecha.required' => 'La fecha es obligatoria.',
+        'fecha.date' => 'Ingresa una fecha válida.',
+        'fecha.after_or_equal' => 'La fecha debe ser hoy o una fecha futura.',
+        'hora_inicio.required' => 'Debes indicar la hora de inicio.',
+        'duracion_horas.required' => 'La duración es obligatoria.',
+        'duracion_horas.integer' => 'La duración debe ser un número entero.',
+        'duracion_horas.min' => 'La reserva debe durar al menos 1 hora.',
+        'duracion_horas.max' => 'La reserva no puede superar las 8 horas.',
+        'nuevoClienteNombre.required' => 'El nombre del cliente es obligatorio.',
+        'nuevoClienteTelefono.required' => 'El teléfono del cliente es obligatorio.',
+    ];
+
     // para crear cliente rápido
     public $showModalCliente = false;
     public $nuevoClienteNombre;
