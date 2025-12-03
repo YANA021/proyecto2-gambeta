@@ -93,8 +93,4 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('estados_reserva', \App\Http\Controllers\EstadoReservaController::class);
     });
 
-    // rutas cliente
-    Route::middleware(['role:cliente'])->group(function () {
-        Route::view('/cliente', 'cliente.dashboard')->name('cliente.dashboard');
-    });
 });

@@ -15,9 +15,9 @@ class ProtectionTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_unauthenticated_users_cannot_access_client_dashboard()
+    public function test_unauthenticated_users_cannot_access_empleado_dashboard()
     {
-        $response = $this->get('/cliente');
+        $response = $this->get('/empleado');
         $response->assertRedirect(route('login'));
     }
 

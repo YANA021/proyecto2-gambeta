@@ -49,11 +49,11 @@ class LandingPageTest extends TestCase
         $response->assertSee(route('admin.dashboard'));
     }
 
-    public function test_landing_page_shows_dashboard_link_for_client()
+    public function test_landing_page_shows_dashboard_link_for_empleado()
     {
-        $role = Roles::firstOrCreate(['nombre' => 'cliente']);
+        $role = Roles::firstOrCreate(['nombre' => 'empleado']);
         $user = Usuario::create([
-            'nombre_usuario' => 'client_landing',
+            'nombre_usuario' => 'empleado_landing',
             'contrasena' => Hash::make('password'),
             'rol_id' => $role->id
         ]);
@@ -61,7 +61,7 @@ class LandingPageTest extends TestCase
         $response = $this->actingAs($user)->get('/');
         $response->assertStatus(200);
         $response->assertSee('Ir al Panel');
-        // esto aquí debería enlazar al panel de cliente
-        $response->assertSee(route('cliente.dashboard'));
+        // esto aquí debería enlazar al panel de empleado
+        $response->assertSee(route('empleado.dashboard'));
     }
 }

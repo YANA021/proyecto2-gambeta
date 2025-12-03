@@ -13,9 +13,8 @@ class TestUsersSeeder extends Seeder
     public function run(): void
     {
         // roles
-        $adminRole = Roles::firstOrCreate(['nombre' => 'Administrador']);
-        $empleadoRole = Roles::firstOrCreate(['nombre' => 'Empleado']);
-        $clienteRole = Roles::firstOrCreate(['nombre' => 'Cliente']);
+        $adminRole = Roles::firstOrCreate(['nombre' => 'administrador']);
+        $empleadoRole = Roles::firstOrCreate(['nombre' => 'empleado']);
 
         // usuarios
         Usuario::firstOrCreate(
@@ -26,11 +25,6 @@ class TestUsersSeeder extends Seeder
         Usuario::firstOrCreate(
             ['nombre_usuario' => 'empleado'],
             ['contrasena' => Hash::make('password'), 'rol_id' => $empleadoRole->id]
-        );
-
-        Usuario::firstOrCreate(
-            ['nombre_usuario' => 'cliente'],
-            ['contrasena' => Hash::make('password'), 'rol_id' => $clienteRole->id]
         );
 
         // clientes (datos para reservas)
