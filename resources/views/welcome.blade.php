@@ -52,7 +52,7 @@
 
         <!-- footer simple -->
         <div class="absolute bottom-4 text-center text-sm text-text-secondary">
-            &copy; {{ date('Y') }} proyecto para lagambeta para la materia de TPI
+          Todos los derechos reservados {{ date('Y') }}  &copy; Gambeta
         </div>
     </div>
 </body>

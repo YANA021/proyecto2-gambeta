@@ -12,7 +12,7 @@
             <div class="space-y-1">
                 <p class="text-xs uppercase tracking-wide text-slate-500">Gestión</p>
                 <h1 class="text-2xl font-bold">Reservas</h1>
-                <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-primary hover:text-brand-hover">
+                <a href="{{ route($dashboardRoute) }}" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-primary hover:text-brand-hover">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
@@ -101,9 +101,9 @@
                                 <div class="flex flex-wrap items-center gap-2 text-xs font-semibold">
                                     <a href="{{ route('reservas.show', $reserva) }}"
                                        class="rounded-full bg-slate-900 px-3 py-1 text-white hover:bg-slate-800">Ver</a>
-                                    <a href="{{ route('reservas.edit', $reserva) }}"
-                                       class="rounded-full bg-slate-100 px-3 py-1 text-slate-800 ring-1 ring-slate-200 hover:bg-slate-200">Editar</a>
-                                    @if(auth()->user()->hasRole('administrador'))
+                                    @if($isAdmin)
+                                        <a href="{{ route('reservas.edit', $reserva) }}"
+                                           class="rounded-full bg-slate-100 px-3 py-1 text-slate-800 ring-1 ring-slate-200 hover:bg-slate-200">Editar</a>
                                         <form action="{{ route('reservas.destroy', $reserva) }}" method="POST"
                                               onsubmit="return confirm('¿Eliminar esta reserva?')" class="inline">
                                             @csrf

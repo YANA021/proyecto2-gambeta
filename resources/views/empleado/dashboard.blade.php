@@ -22,7 +22,7 @@
                             <p class="text-xs uppercase tracking-wide text-text-secondary">acciones</p>
                             <p class="text-lg font-bold text-text-primary">Crear reserva</p>
                         </div>
-                        <span class="rounded-full bg-brand-primary/15 p-3 text-brand-primary text-xl group-hover:scale-105 transition">⚡</span>
+                        <span class="rounded-full bg-brand-primary/15 px-3 py-2 text-brand-primary text-xs font-semibold uppercase group-hover:scale-105 transition">CR</span>
                     </div>
                     <p class="mt-2 text-sm text-text-secondary">Registrar una nueva reserva rápidamente.</p>
                 </a>
@@ -32,7 +32,7 @@
                             <p class="text-xs uppercase tracking-wide text-emerald-700/70">caja</p>
                             <p class="text-lg font-bold text-emerald-800">Registrar pago</p>
                         </div>
-                        <span class="rounded-full bg-white p-3 text-emerald-600 text-xl group-hover:scale-105 transition">💰</span>
+                        <span class="rounded-full bg-white px-3 py-2 text-emerald-700 text-xs font-semibold uppercase group-hover:scale-105 transition">CO</span>
                     </div>
                     <p class="mt-2 text-sm text-emerald-700/80">Asienta cobros de reservas confirmadas.</p>
                 </a>
@@ -42,7 +42,7 @@
                             <p class="text-xs uppercase tracking-wide text-text-secondary">pagos</p>
                             <p class="text-lg font-bold text-text-primary">Ver / modificar</p>
                         </div>
-                        <span class="rounded-full bg-brand-primary/10 p-3 text-brand-primary text-xl group-hover:scale-105 transition">🧾</span>
+                        <span class="rounded-full bg-brand-primary/10 px-3 py-2 text-brand-primary text-xs font-semibold uppercase group-hover:scale-105 transition">PG</span>
                     </div>
                     <p class="mt-2 text-sm text-text-secondary">Edita pagos existentes cuando sea necesario.</p>
                 </a>
@@ -52,7 +52,7 @@
                             <p class="text-xs uppercase tracking-wide text-text-secondary">agenda</p>
                             <p class="text-lg font-bold text-text-primary">Calendario</p>
                         </div>
-                        <span class="rounded-full bg-brand-primary/10 p-3 text-brand-primary text-xl group-hover:scale-105 transition">📅</span>
+                        <span class="rounded-full bg-brand-primary/10 px-3 py-2 text-brand-primary text-xs font-semibold uppercase group-hover:scale-105 transition">AG</span>
                     </div>
                     <p class="mt-2 text-sm text-text-secondary">Consulta disponibilidad general.</p>
                 </a>

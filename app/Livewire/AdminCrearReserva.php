@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\EstadoReserva;
 use App\Models\Reserva;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -38,7 +39,7 @@ class AdminCrearReserva extends Component
 
     public function mount(): void
     {
-        $this->canchas = Cancha::orderBy('nombre')->get();
+        $this->canchas = Cancha::where('disponible', true)->orderBy('nombre')->get();
         $this->clientes = Cliente::orderBy('nombre')->get();
         $this->estados = EstadoReserva::orderBy('nombre')->get();
         $this->fecha = now()->format('Y-m-d');
@@ -57,7 +58,7 @@ class AdminCrearReserva extends Component
     public function save(): void
     {
         $data = $this->validate([
-            'cancha_id' => ['required', 'exists:canchas,id'],
+            'cancha_id' => ['required', Rule::exists('canchas', 'id')->where('disponible', true)],
             'cliente_id' => ['required', 'exists:clientes,id'],
             'fecha' => ['required', 'date'],
             'hora_inicio' => ['required', 'date_format:H:i'],
